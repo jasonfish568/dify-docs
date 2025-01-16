@@ -283,7 +283,7 @@ curl --location --request GET 'https://api.dify.ai/v1/datasets/{dataset_id}' \
 curl --location --request POST 'https://api.dify.ai/v1/datasets/{dataset_id}' \
 --header 'Authorization: Bearer {api_key}' \
 --header 'Content-Type: application/json' \
---data-raw '{"name": "Test Knowledge Base", "indexing_technique": "high_quality", "permission": "only_me",'\
+--data-raw '{"name": "Test Knowledge Base", "indexing_technique": "high_quality", "permission": "only_me",\
   "embedding_model_provider": "zhipuai", "embedding_model": "embedding-3", "retrieval_model": "", "partial_member_list": []}'
 ```
 

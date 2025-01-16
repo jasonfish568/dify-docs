@@ -115,7 +115,7 @@ curl --location --request POST 'https://api.dify.ai/v1/apps/annotation-reply/{ac
 - `action`： 只能是enable或者disable
 - `embedding_model_provider`: 指定的嵌入模型提供商, 必须先在系统内设定好接入的模型，对应的是provider字段
 - `embedding_model`: 指定的嵌入模型，对应的是model字段
-- `retrieval_model`: 指定的检索模型，对应的是model字段
+- `score_threshold`: 相似度阈值，当相似度大于该阈值时，系统会自动回复，否则不回复
 
 嵌入模型的提供商和模型名称可以通过以下接口获取：`v1/workspaces/current/models/model-types/text-embedding`，
 具体见：[通过 API 维护知识库](guides/knowledge-base/maintain-dataset-via-api.md)。

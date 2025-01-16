@@ -115,7 +115,7 @@ Parameter Description:
 - `action`: Can only be `enable` or `disable`
 - `embedding_model_provider`: Specified embedding model provider, must be set up in the system first, corresponding to the provider field
 - `embedding_model`: Specified embedding model, corresponding to the model field
-- `retrieval_model`: Specified retrieval model, corresponding to the model field
+- `score_threshold`: The similarity threshold for matching annotated replies. Only annotations with scores above this threshold will be recalled.
 
 The provider and model name of the embedding model can be obtained through the following interface: `v1/workspaces/current/models/model-types/text-embedding`. For specific instructions, see: [Maintain Knowledge Base via API](guides/knowledge-base/maintain-dataset-via-api.md). The Authorization used is the Dataset API Token.
 
