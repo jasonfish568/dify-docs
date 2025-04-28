@@ -296,6 +296,7 @@ Used to store uploaded data set files, team/tenant encryption keys, and other fi
     - `tablestore`
     - `lindorm`
     - `tencent`
+    - `opengauss`
 
 - WEAVIATE_ENDPOINT
 
@@ -510,6 +511,38 @@ Used to store uploaded data set files, team/tenant encryption keys, and other fi
 - TENCENT\_VECTOR\_DB\_ENABLE\_HYBRID\_SEARCH
 
     Specify whether to enable HybridSearch. [Sparse Vector Documentation](https://cloud.tencent.com/document/product/1709/110110)。
+
+- OPENGAUSS_HOST
+
+  The hostname or IP address of the openGauss vector database.
+
+- OPENGAUSS_PORT
+
+  The port of the openGauss vector database.
+
+- OPENGAUSS_USER
+
+  The username of the openGauss vector database.
+
+- OPENGAUSS_PASSWORD
+
+  The password of the openGauss vector database.
+
+- OPENGAUSS_DATABASE
+
+  The database name of the openGauss vector database.
+
+- OPENGAUSS_MIN_CONNECTION
+
+  Min connection of the openGauss vector database.
+
+- OPENGAUSS_MAX_CONNECTION
+
+  Max connection of the openGauss vector database.
+
+- OPENGAUSS_ENABLE_PQ
+
+  Enabling PQ Acceleration for the openGauss vector database.
 
 #### Knowledge Configuration
 

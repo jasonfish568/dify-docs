@@ -296,6 +296,7 @@ dockerイメージまたはdocker-composeによる起動時にのみ有効です
     * `tablestore`
     * `lindorm`
     * `tencent`
+    * `opengauss`
 
 *   WEAVIATE\_ENDPOINT
 
@@ -503,6 +504,38 @@ dockerイメージまたはdocker-composeによる起動時にのみ有効です
 *   TENCENT\_VECTOR\_DB\_ENABLE\_HYBRID\_SEARCH
 
     HybridSearchを有効にするかどうかを指定します。[スパースベクトル文書](https://cloud.tencent.com/document/product/1709/110110)。
+
+*   OPENGAUSS\_HOST
+
+    openGaussベクトルデータベースのホスト名またはIPアドレス。
+
+*   OPENGAUSS\_PORT
+
+    openGaussベクトルデータベースのポート。
+
+*   OPENGAUSS\_USER
+
+    openGaussベクトルデータベースのユーザー名。
+
+*   OPENGAUSS\_PASSWORD
+
+    openGaussベクトルデータベースのパスワード。
+
+*   OPENGAUSS\_DATABASE
+
+    openGaussベクトルデータベースのデータベース名。
+
+*   OPENGAUSS\_MIN\_CONNECTION
+
+    openGaussベクトルデータベースの最小接続。
+
+*   OPENGAUSS\_MAX\_CONNECTION
+
+    openGaussベクトルデータベースの最大接続数。
+
+*   OPENGAUSS\_ENABLE\_PQ
+
+    openGaussベクトルデータベースのPQ加速を有効にします。
 
 #### ナレッジベース設定
 

@@ -281,6 +281,7 @@ Flask 调试模式，开启可在接口输出 trace 信息，方便调试。
     * `tablestore`
     * `lindorm`
     * `tencent`
+    * `opengauss`
 
 *   WEAVIATE\_ENDPOINT
 
@@ -493,6 +494,38 @@ Flask 调试模式，开启可在接口输出 trace 信息，方便调试。
 *   TENCENT\_VECTOR\_DB\_ENABLE\_HYBRID\_SEARCH
 
     指定是否开启HybridSearch。[稀疏向量文档](https://cloud.tencent.com/document/product/1709/110110)。
+
+*   OPENGAUSS\_HOST
+
+    openGauss数据库的主机名或IP。
+
+*   OPENGAUSS\_PORT
+
+    openGauss数据库的端口。
+
+*   OPENGAUSS\_USER
+
+    openGauss数据库的用户名。
+
+*   OPENGAUSS\_PASSWORD
+
+    openGauss数据库的密码。
+
+*   OPENGAUSS\_DATABASE
+
+    openGauss数据库的数据库名。
+
+*   OPENGAUSS\_MIN\_CONNECTION
+
+    openGauss数据库的最小连接数。
+
+*   OPENGAUSS\_MAX\_CONNECTION
+
+    openGauss数据库的最大连接数。
+
+*   OPENGAUSS\_ENABLE\_PQ
+
+    openGauss数据库使能PQ加速。
 
 #### 知识库配置
 
