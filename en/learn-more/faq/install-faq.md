@@ -1,4 +1,4 @@
-# Self Host / Local Deployment Frequently Asked Questions (FAQs)
+# Self-Host
 
 ### 1. How to reset the password if it is incorrect after local deployment initialization?
 
@@ -24,12 +24,12 @@ FileNotFoundError: File not found
 
 This error might be due to changing the deployment method or deleting the `api/storage/privkeys` directory. This file is used to encrypt the large model keys, so its loss is irreversible. You can reset the encryption key pair with the following commands:
 
-* Docker Compose deployment
+*   Docker Compose deployment
 
     ```
     docker exec -it docker-api-1 flask reset-encrypt-key-pair
     ```
-* Source code startup
+*   Source code startup
 
     Navigate to the `api` directory
 
@@ -44,10 +44,10 @@ This error might be due to changing the deployment method or deleting the `api/s
 This might be due to switching the domain/URL, causing cross-domain issues between the frontend and backend. Cross-domain and identity issues involve the following configurations:
 
 1. CORS Cross-Domain Configuration
-   1. `CONSOLE_CORS_ALLOW_ORIGINS`
+   1.  `CONSOLE_CORS_ALLOW_ORIGINS`
 
        Console CORS policy, default is `*`, meaning all domains can access.
-   2. `WEB_API_CORS_ALLOW_ORIGINS`
+   2.  `WEB_API_CORS_ALLOW_ORIGINS`
 
        WebAPP CORS policy, default is `*`, meaning all domains can access.
 
@@ -55,11 +55,7 @@ This might be due to switching the domain/URL, causing cross-domain issues betwe
 
 This might be due to switching the domain/URL, causing cross-domain issues between the frontend and backend. Update the following configuration items in `docker-compose.yml` to the new domain:
 
-`CONSOLE_API_URL:` Backend URL for the console API.
-`CONSOLE_WEB_URL:` Frontend URL for the console web.
-`SERVICE_API_URL:` URL for the service API.
-`APP_API_URL:` Backend URL for the WebApp API.
-`APP_WEB_URL:` URL for the WebApp.
+`CONSOLE_API_URL:` Backend URL for the console API. `CONSOLE_WEB_URL:` Frontend URL for the console web. `SERVICE_API_URL:` URL for the service API. `APP_API_URL:` Backend URL for the WebApp API. `APP_WEB_URL:` URL for the WebApp.
 
 For more information, please refer to: [Environment Variables](../../getting-started/install-self-hosted/environments.md)
 
@@ -116,7 +112,7 @@ Refer to the official website [Environment Variables Documentation](https://docs
 
 If port 80 is occupied, stop the service occupying port 80 or modify the port mapping in `docker-compose.yaml` to map port 80 to another port. Typically, Apache and Nginx occupy this port, which can be resolved by stopping these two services.
 
-### 15. What to do if you encounter the error "[openai] Error: ffmpeg is not installed" during text-to-speech?
+### 15. What to do if you encounter the error "\[openai] Error: ffmpeg is not installed" during text-to-speech?
 
 ```
 [openai] Error: ffmpeg is not installed
@@ -128,7 +124,7 @@ Since OpenAI TTS implements audio stream segmentation, ffmpeg needs to be instal
 
 1. Visit [FFmpeg Official Website](https://ffmpeg.org/download.html) and download the precompiled Windows shared library.
 2. Download and extract the FFmpeg folder, which will generate a folder like "ffmpeg-20200715-51db0a4-win64-static".
-3. Move the extracted folder to your desired location, e.g., C:\Program Files\.
+3. Move the extracted folder to your desired location, e.g., C:\Program Files.
 4. Add the absolute path of the FFmpeg bin directory to the system environment variables.
 5. Open Command Prompt and enter "ffmpeg -version". If you see the FFmpeg version information, the installation is successful.
 
@@ -172,12 +168,11 @@ docker compose up -d
 To migrate from Weaviate to another vector database, follow these steps:
 
 1. For local source code deployment:
-   - Update the vector database setting in the `.env` file
-   - Example: Set `VECTOR_STORE=qdrant` to migrate to Qdrant
-
+   * Update the vector database setting in the `.env` file
+   * Example: Set `VECTOR_STORE=qdrant` to migrate to Qdrant
 2. For Docker Compose deployment:
-   - Update the vector database settings in `docker-compose.yaml`
-   - Make sure to modify both API and worker service configurations
+   * Update the vector database settings in `docker-compose.yaml`
+   * Make sure to modify both API and worker service configurations
 
 ```
 # The type of vector store to use. Supported values are `weaviate`, `qdrant`, `milvus`, `analyticdb`.
@@ -192,11 +187,11 @@ flask vdb-migrate # or docker exec -it docker-api-1 flask vdb-migrate
 
 **Tested target database:**
 
-- qdrant
-- milvus
-- analyticdb
+* qdrant
+* milvus
+* analyticdb
 
-### 18. Why is SSRF_PROXY needed?
+### 18. Why is SSRF\_PROXY needed?
 
 In the community edition's `docker-compose.yaml`, you might notice some services configured with `SSRF_PROXY` and `HTTP_PROXY` environment variables, all pointing to an `ssrf_proxy` container. This is to prevent SSRF attacks. For more information on SSRF attacks, you can read [this article](https://portswigger.net/web-security/ssrf).
 
@@ -246,30 +241,33 @@ The API service port is consistent with the one used by the Dify platform. You c
 
 ### 22. How to Migrate from Local to Cloud Storage?
 
-To migrate files from local storage to cloud storage (e.g., Alibaba Cloud OSS), you'll need to transfer data from the 'upload_files' and 'privkeys' folders. Follow these steps:
+To migrate files from local storage to cloud storage (e.g., Alibaba Cloud OSS), you'll need to transfer data from the 'upload\_files' and 'privkeys' folders. Follow these steps:
 
-1. Configure Storage Settings
+1.  Configure Storage Settings
 
-   For local source code deployment:
-   - Update storage settings in `.env` file
-   - Set `STORAGE_TYPE=aliyun-oss`
-   - Configure Alibaba Cloud OSS credentials
+    For local source code deployment:
 
-   For Docker Compose deployment:
-   - Update storage settings in `docker-compose.yaml`
-   - Set `STORAGE_TYPE: aliyun-oss`
-   - Configure Alibaba Cloud OSS credentials
+    * Update storage settings in `.env` file
+    * Set `STORAGE_TYPE=aliyun-oss`
+    * Configure Alibaba Cloud OSS credentials
 
-2. Execute Migration Commands
+    For Docker Compose deployment:
 
-   For local source code:
-   ```bash
-   flask upload-private-key-file-to-cloud-storage
-   flask upload-local-files-to-cloud-storage
-   ```
+    * Update storage settings in `docker-compose.yaml`
+    * Set `STORAGE_TYPE: aliyun-oss`
+    * Configure Alibaba Cloud OSS credentials
+2.  Execute Migration Commands
 
-   For Docker Compose:
-   ```bash
-   docker exec -it docker-api-1 flask upload-private-key-file-to-cloud-storage
-   docker exec -it docker-api-1 flask upload-local-files-to-cloud-storage
-   ```
+    For local source code:
+
+    ```bash
+    flask upload-private-key-file-to-cloud-storage
+    flask upload-local-files-to-cloud-storage
+    ```
+
+    For Docker Compose:
+
+    ```bash
+    docker exec -it docker-api-1 flask upload-private-key-file-to-cloud-storage
+    docker exec -it docker-api-1 flask upload-local-files-to-cloud-storage
+    ```

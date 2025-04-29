@@ -1,9 +1,9 @@
-# Connecting to OpenLLM Local Deployed Models
+# Integrate Local Models Deployed by OpenLLM
 
-With [OpenLLM](https://github.com/bentoml/OpenLLM), you can run inference with any open-source large-language models, deploy to the cloud or on-premises, and build powerful AI apps.
-And Dify supports connecting to OpenLLM deployed large language model's inference capabilities locally.
+With [OpenLLM](https://github.com/bentoml/OpenLLM), you can run inference with any open-source large-language models, deploy to the cloud or on-premises, and build powerful AI apps. And Dify supports connecting to OpenLLM deployed large language model's inference capabilities locally.
 
 ## Deploy OpenLLM Model
+
 ### Starting OpenLLM
 
 Each OpenLLM Server can deploy one model, and you can deploy it in the following way:
@@ -16,11 +16,11 @@ docker run --rm -it -p 3333:3000 ghcr.io/bentoml/openllm start facebook/opt-1.3b
 
 After the model is deployed, use the connected model in Dify.
 
-   Fill in under `Settings > Model Providers > OpenLLM`:
+Fill in under `Settings > Model Providers > OpenLLM`:
 
-   - Model Name: `facebook/opt-1.3b`
-   - Server URL: `http://<Machine_IP>:3333` Replace with your machine IP address
+* Model Name: `facebook/opt-1.3b`
+* Server URL: `http://<Machine_IP>:3333` Replace with your machine IP address
 
-   Click "Save" and the model can be used in the application.
+Click "Save" and the model can be used in the application.
 
 This instruction is only for quick connection as an example. For more features and information on using OpenLLM, please refer to: [OpenLLM](https://github.com/bentoml/OpenLLM)

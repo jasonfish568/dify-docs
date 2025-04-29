@@ -1,5 +1,13 @@
 # 环境变量说明
 
+{% hint style="warning" %}
+本文档可能未及时更新，请优先参考最新的配置文件：
+
+- [docker-compose.yaml](https://github.com/langgenius/dify/blob/5f8d20b5b2bb51f19547467167b18d9c0f6ffbb8/docker/docker-compose.yaml)
+
+- [.env.example](https://github.com/langgenius/dify/blob/5f8d20b5b2bb51f19547467167b18d9c0f6ffbb8/docker/.env.example)
+{% endhint %}
+
 ### 公共变量
 
 #### CONSOLE\_API\_URL
@@ -51,7 +59,7 @@ Flask 调试模式，开启可在接口输出 trace 信息，方便调试。
 
 #### SECRET\_KEY
 
-一个用于安全地签名会话 cookie 并在数据库上加密敏感信息的密钥。初次启动需要设置改变量。可以运行 `openssl rand -base64 42` 生成一个强密钥。
+一个用于安全地签名会话 cookie 并在数据库上加密敏感信息的密钥。初次启动需要设置该变量。可以运行 `openssl rand -base64 42` 生成一个强密钥。
 
 #### DEPLOY\_ENV
 
@@ -154,37 +162,37 @@ Flask 调试模式，开启可在接口输出 trace 信息，方便调试。
 
 *   CELERY\_BROKER\_URL
 
-    格式如下（直连模式）
+    格式如下（直连模式）：
 
-    <pre><code><strong>redis://&#x3C;redis_username>:&#x3C;redis_password>@&#x3C;redis_host>:&#x3C;redis_port>/&#x3C;redis_database>
-    </strong><strong>  
-    </strong></code></pre>
+    ```
+    redis://<redis_username>:<redis_password>@<redis_host>:<redis_port>/<redis_database>
+  ```
 
     范例：`redis://:difyai123456@redis:6379/1`
 
-    哨兵模式
+    哨兵模式：
 
-    <pre><code><strong>sentinel://&#x3C;sentinel_username>:&#x3C;sentinel_password>@&#x3C;sentinel_host>:&#x3C;sentinel_port>/&#x3C;redis_database>
-    </strong><strong>  
-    </strong></code></pre>
+    ```
+      sentinel://<sentinel_username>:<sentinel_password>@<sentinel_host>:<sentinel_port>/<redis_database>
+  ```
 
     范例：`sentinel://localhost:26379/1;sentinel://localhost:26380/1;sentinel://localhost:26381/1`
     
 *   BROKER\_USE\_SSL
 
-    若设置为 true，则使用 SSL 协议进行连接，默认 false
+    若设置为 true，则使用 SSL 协议进行连接，默认 false。
 
 *   CELERY\_USE\_SENTINEL
 
-    若设置为 true，则启用哨兵模式，默认 false
+    若设置为 true，则启用哨兵模式，默认 false。
 
 *   CELERY_SENTINEL_MASTER_NAME
 
-    哨兵的服务名，即 Master Name
+    哨兵的服务名，即 Master Name。
 
 *   CELERY_SENTINEL_SOCKET_TIMEOUT
 
-    哨兵连接超时时间，默认值：0.1，单位：秒
+    哨兵连接超时时间，默认值：0.1，单位：秒。
 
 #### CORS 配置
 
@@ -216,6 +224,9 @@ Flask 调试模式，开启可在接口输出 trace 信息，方便调试。
     *   azure-blob
 
         Azure Blob 存储，若选择此项则需要设置下方 AZURE\_BLOB\_ 开头的配置。
+    *   aliyun-oss
+
+        阿里云 OSS 存储，若选择此项则需要设置下方 ALIYUN\_OSS\_ 开头的配置。
     *   huawei-obs
 
         Huawei OBS 存储，若选择此项则需要设置下方 HUAWEI\_OBS\_ 开头的配置。
@@ -237,19 +248,19 @@ Flask 调试模式，开启可在接口输出 trace 信息，方便调试。
 * ALIYUN\_OSS\_BUCKET_NAME: your-bucket-name 如 'difyai'
 * ALIYUN\_OSS\_ACCESS_KEY: your-access-key 如 'difyai'
 * ALIYUN\_OSS\_SECRET_KEY: your-secret-key 如 'difyai'
-* ALIYUN\_OSS\_ENDPOINT: https://oss-ap-southeast-1-internal.aliyuncs.com # 参考文档: https://help.aliyun.com/zh/oss/user-guide/regions-and-endpoints
-* ALIYUN\_OSS\_REGION: ap-southeast-1 # 参考文档: https://help.aliyun.com/zh/oss/user-guide/regions-and-endpoints
+* ALIYUN\_OSS\_ENDPOINT: https://oss-ap-southeast-1-internal.aliyuncs.com # 参考[文档](https://help.aliyun.com/zh/oss/user-guide/regions-and-endpoints)
+* ALIYUN\_OSS\_REGION: ap-southeast-1 # 参考[文档](https://help.aliyun.com/zh/oss/user-guide/regions-and-endpoints)
 * ALIYUN\_OSS\_AUTH_VERSION: v4
-* ALIYUN\_OSS\_PATH: your-path # 路径不要使用斜线 "/" 开头，阿里云 OSS 不支持。参考文档: https://api.aliyun.com/troubleshoot?q=0016-00000005
+* ALIYUN\_OSS\_PATH: your-path # 路径不要使用斜线 "/" 开头，阿里云 OSS 不支持。参考[文档](https://api.aliyun.com/troubleshoot?q=0016-00000005)
 * HUAWEI\_OBS\_BUCKET\_NAME: your-bucket-name 如 'difyai'
 * HUAWEI\_OBS\_SECRET\_KEY: your-secret-key 如 'difyai'
 * HUAWEI\_OBS\_ACCESS\_KEY: your-access-key 如 'difyai'
-* HUAWEI\_OBS\_SERVER: your-server-url # 参考文档: https://support.huaweicloud.com/sdk-python-devg-obs/obs_22_0500.html
-* VOLCENGINE_TOS_BUCKET_NAME: your-bucket-name 如 'difyai'
-* VOLCENGINE_TOS_SECRET_KEY: your-secret-key 如 'difyai'
-* VOLCENGINE_TOS_ACCESS_KEY: your-access-key 如 'difyai'
-* VOLCENGINE_TOS_REGION: your-region 如 'cn-guangzhou' # 参考文档: https://www.volcengine.com/docs/6349/107356
-* VOLCENGINE_TOS_ENDPOINT: your-endpoint 如 'tos-cn-guangzhou.volces.com' # 参考文档: https://www.volcengine.com/docs/6349/107356
+* HUAWEI\_OBS\_SERVER: your-server-url # 参考[文档](https://support.huaweicloud.com/sdk-python-devg-obs/obs_22_0500.html)。
+* VOLCENGINE_TOS_BUCKET_NAME: your-bucket-name 如 'difyai'。
+* VOLCENGINE_TOS_SECRET_KEY: your-secret-key 如 'difyai'。
+* VOLCENGINE_TOS_ACCESS_KEY: your-access-key 如 'difyai'。
+* VOLCENGINE_TOS_REGION: your-region 如 'cn-guangzhou' # 参考[文档]( https://www.volcengine.com/docs/6349/107356)。
+* VOLCENGINE_TOS_ENDPOINT: your-endpoint 如 'tos-cn-guangzhou.volces.com' # 参考[文档](https://www.volcengine.com/docs/6349/107356)。
 
 #### 向量数据库配置
 
@@ -266,6 +277,12 @@ Flask 调试模式，开启可在接口输出 trace 信息，方便调试。
     * `tidb_vector`
     * `analyticdb`
     * `couchbase`
+    * `oceanbase`
+    * `tablestore`
+    * `lindorm`
+    * `tencent`
+    * `opengauss`
+
 *   WEAVIATE\_ENDPOINT
 
     Weaviate 端点地址，如：`http://weaviate:8080`。
@@ -274,7 +291,7 @@ Flask 调试模式，开启可在接口输出 trace 信息，方便调试。
     连接 Weaviate 使用的 api-key 凭据。
 *   WEAVIATE\_BATCH\_SIZE
 
-    Weaviate 批量创建索引 Object 的数量，默认 100。可参考此文档：https://weaviate.io/developers/weaviate/manage-data/import#how-to-set-batch-parameters
+    Weaviate 批量创建索引 Object 的数量，默认 100。可参考此[文档](https://weaviate.io/developers/weaviate/manage-data/import#how-to-set-batch-parameters)。
 *   WEAVIATE\_GRPC\_ENABLED
 
     是否使用 gRPC 方式与 Weaviate 进行交互，开启后性能会大大增加，本地可能无法使用，默认为 true。
@@ -292,13 +309,13 @@ Flask 调试模式，开启可在接口输出 trace 信息，方便调试。
     Pinecone 所在的额环境，如：`us-east4-gcp`
 *   MILVUS\_URI
 
-    Milvus 的 URI 配置。例如：http://localhost:19530。对于 Zilliz Cloud，请将 URI 和令牌调整为 [Public Endpoint and Api key](https://docs.zilliz.com/docs/on-zilliz-cloud-console#free-cluster-details) 。
+    Milvus 的 URI 配置。例如：`http://host.docker.internal:19530`。对于 [Zilliz Cloud](https://docs.zilliz.com.cn/docs/free-trials)，请将 URI 和 TOKEN 分别设置为 Public Endpoint 和 API Key。
 *   MILVUS\_TOKEN
 
-    Milvus token 配置，默认为空。
+    Milvus TOKEN 配置，默认为空。
 *   MILVUS\_USER
 
-    Milvus user 配置，默认为空。
+    Milvus 用户名配置，默认为空。
 *   MILVUS\_PASSWORD
 
     Milvus 密码配置，默认为空。
@@ -371,29 +388,151 @@ Flask 调试模式，开启可在接口输出 trace 信息，方便调试。
 
 -   COUCHBASE_CONNECTION_STRING
 
-    Couchbase 集群的连接 string 字符串
+    Couchbase 集群的连接 string 字符串。
 
 -   COUCHBASE_USER
 
-    数据库用户名
+    数据库用户名。
 
 -   COUCHBASE_PASSWORD
 
-    数据库密码
+    数据库密码。
 
 -   COUCHBASE_BUCKET_NAME
 
-     Bucket 名称
+     Bucket 名称。
 
 -   COUCHBASE_SCOPE_NAME
 
-     Scope 名称
+     Scope 名称。
+
+*   OCEANBASE\_VECTOR\_HOST
+
+    OceanBase Vector 数据库的 Host。
+
+*   OCEANBASE\_VECTOR\_PORT
+
+    OceanBase Vector 数据库的端口。
+
+*   OCEANBASE\_VECTOR\_USER
+
+    OceanBase Vector 数据库的用户名。
+
+*   OCEANBASE\_VECTOR\_PASSWORD
+
+    OceanBase Vector 数据库的密码。
+
+*   OCEANBASE\_VECTOR\_DATABASE
+
+    OceanBase Vector 数据库的库名。
+
+*   OCEANBASE\_CLUSTER\_NAME
+
+    OceanBase 集群名，仅用于 Docker 部署。
+
+*   OCEANBASE\_MEMORY\_LIMIT
+
+    OceanBase 内存使用上限，仅用于 Docker 部署。
+
+*   TABLESTORE\_ENDPOINT
+
+    Tablestore 访问 Endpoint。
+
+*   TABLESTORE\_INSTANCE\_NAME
+
+    Tablestore 访问实例名。
+
+*   TABLESTORE\_ACCESS\_KEY\_ID
+
+    Tablestore 访问 ID。
+
+*   TABLESTORE\_ACCESS\_KEY\_SECRET
+
+    Tablestore 访问密钥。
+
+*   LINDORM\_URL
+
+    LINDORM 搜索引擎地址，可从[控制台](https://lindorm.console.aliyun.com/) 获得。
+
+*   LINDORM\_USERNAME
+
+    LINDORM 用户名
+
+*   LINDORM\_PASSWORD
+
+    LINDORM 访问密码
+
+*   TENCENT\_VECTOR\_DB\_URL
+
+    腾讯云向量数据库访问地址，[控制台](https://console.cloud.tencent.com/vdb) 获得。
+
+*   TENCENT\_VECTOR\_DB\_API_KEY
+
+    向量数据库服务端的API密钥（密码），用于进行身份认证。 [密钥管理](https://cloud.tencent.com/document/product/1709/95108)。
+
+*   TENCENT\_VECTOR\_DB\_USERNAME
+
+    向量数据库账号，默认root， [账号与权限管理](https://cloud.tencent.com/document/product/1709/115833)。
+
+*   TENCENT\_VECTOR\_DB\_TIMEOUT
+
+    设置默认请求超时时间。
+
+*   TENCENT\_VECTOR\_DB\_DATABASE
+
+    数据库（Database）是按照数据结构来组织、存储和管理数据的仓库，一个实例可以创建多个 Database。
+    [新建Database](https://cloud.tencent.com/document/product/1709/95822)。
+
+*   TENCENT\_VECTOR\_DB\_SHARD
+
+    指定分片数（Shards）。
+
+*   TENCENT\_VECTOR\_DB\_REPLICAS
+
+    指定副本数（Replica）。
+
+*   TENCENT\_VECTOR\_DB\_ENABLE\_HYBRID\_SEARCH
+
+    指定是否开启HybridSearch。[稀疏向量文档](https://cloud.tencent.com/document/product/1709/110110)。
+
+*   OPENGAUSS\_HOST
+
+    openGauss数据库的主机名或IP。
+
+*   OPENGAUSS\_PORT
+
+    openGauss数据库的端口。
+
+*   OPENGAUSS\_USER
+
+    openGauss数据库的用户名。
+
+*   OPENGAUSS\_PASSWORD
+
+    openGauss数据库的密码。
+
+*   OPENGAUSS\_DATABASE
+
+    openGauss数据库的数据库名。
+
+*   OPENGAUSS\_MIN\_CONNECTION
+
+    openGauss数据库的最小连接数。
+
+*   OPENGAUSS\_MAX\_CONNECTION
+
+    openGauss数据库的最大连接数。
+
+*   OPENGAUSS\_ENABLE\_PQ
+
+    openGauss数据库使能PQ加速。
 
 #### 知识库配置
 
 *   UPLOAD\_FILE\_SIZE\_LIMIT
 
-    上传文件大小限制，默认 15M。
+    上传文件大小限制，默认 15M
+    
 *   UPLOAD\_FILE\_BATCH\_LIMIT
 
     每次上传文件数上限，默认 5 个。
@@ -412,6 +551,11 @@ Flask 调试模式，开启可在接口输出 trace 信息，方便调试。
     Unstructured API 路径，当 ETL\_TYPE 为 Unstructured 需要配置。
 
     如：`http://unstructured:8000/general/v0/general`
+
+*   TOP_K_MAX_VALUE
+
+    RAG 的最大 top-k 值，默认值为 10。
+
 
 #### 多模态模型配置
 
@@ -576,3 +720,21 @@ WebApp Url，用于显示文件预览或下载 URL 到前端作为多模型输�
 *   COOKIE\_SECURE
 
     Cookie Secure 配置，默认为 false。
+
+### 文档分段长度配置
+
+#### INDEXING_MAX_SEGMENTATION_TOKENS_LENGTH 
+
+文档分段长度配置，用于控制处理长文本时的分段大小。默认值：500。最大值：4000。
+
+**较大分段**
+- 可在单个分段内保留更多上下文，适合需要处理复杂或上下文相关任务的场景。
+- 分段数量减少，从而降低处理时间和存储需求。
+
+**较小分段**
+- 提供更高的粒度，适合精确提取或总结文本内容。
+- 减少超出模型 token 限制的风险，更适配限制严格的模型。
+
+**配置建议**
+- 较大分段：适合上下文依赖性强的任务，例如情感分析或长文档总结。
+- 较小分段：适合精细分析场景，例如关键词提取或段落级内容处理。

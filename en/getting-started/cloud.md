@@ -1,7 +1,5 @@
 # Dify Cloud
 
-
-
 {% hint style="info" %}
 Note: Dify is currently in the Beta testing phase. If there are inconsistencies between the documentation and the product, please refer to the actual product experience.
 {% endhint %}
@@ -30,4 +28,4 @@ A: In Dify Cloud, we anonymize application data to ensure privacy and reduce enc
 
 **Q: What is the process for deleting my account and all associated data from Dify Cloud?**
 
-A: If you decide to delete your account and remove all associated data from Dify Cloud, you can simply send a request to our support team at support@dify.ai. We are committed to respecting your privacy and data rights, and upon request, we will erase all your data from our systems, adhering to data protection regulations.
+A: If you decide to delete your account and remove all associated data from Dify Cloud, you can visit [Account](https://cloud.dify.ai/account) or click on the avatar in the upper right corner, then click "Account". You will see a "Delete account" button; please click it and follow the instructions. We are committed to respecting your privacy and data rights, and upon request, we will erase all your data from our systems, adhering to data protection regulations.

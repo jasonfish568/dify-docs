@@ -1,5 +1,13 @@
 # Environments
 
+{% hint style="warning" %}
+This document may be outdated. Please refer to the latest configuration files:
+
+- [docker-compose.yaml](https://github.com/langgenius/dify/blob/5f8d20b5b2bb51f19547467167b18d9c0f6ffbb8/docker/docker-compose.yaml)
+  
+- [.env.example](https://github.com/langgenius/dify/blob/5f8d20b5b2bb51f19547467167b18d9c0f6ffbb8/docker/.env.example)
+{% endhint %}
+
 ### Common Variables
 
 #### CONSOLE_API_URL
@@ -228,6 +236,9 @@ Used to store uploaded data set files, team/tenant encryption keys, and other fi
   - azure-blob
 
     Azure Blob object storage, if this option is selected, the following AZURE_BLOB\_ prefixed configurations need to be set.
+  - aliyun-oss
+  
+    Alibaba Cloud OSS object storage, if this option is selected, the following ALIYUN_OSS\_ prefixed configurations need to be set.
 
   - huawei-obs
 
@@ -281,6 +292,12 @@ Used to store uploaded data set files, team/tenant encryption keys, and other fi
     - `pinecone` (not yet open)
     - `analyticdb`
     - `couchbase`
+    - `oceanbase`
+    - `tablestore`
+    - `lindorm`
+    - `tencent`
+    - `opengauss`
+
 - WEAVIATE_ENDPOINT
 
   Weaviate endpoint address, such as: `http://weaviate:8080`.
@@ -317,7 +334,7 @@ Used to store uploaded data set files, team/tenant encryption keys, and other fi
 
 - MILVUS_URI
 
-  Milvus uri configuration. e.g.http://localhost:19530. For Zilliz Cloud, adjust the uri and token to the [Public Endpoint and Api key](https://docs.zilliz.com/docs/on-zilliz-cloud-console#free-cluster-details).
+  Milvus uri configuration. e.g. `http://host.docker.internal:19530`. For [Zilliz Cloud](https://docs.zilliz.com/docs/free-trials), adjust the uri and token to the Public Endpoint and API Key.
 
 - MILVUS_TOKEN
 
@@ -407,6 +424,126 @@ Used to store uploaded data set files, team/tenant encryption keys, and other fi
     
   The name of the scope to use.
 
+- OCEANBASE_VECTOR_HOST
+
+  The hostname or IP address of OceanBase vector database.
+
+- OCEANBASE_VECTOR_PORT
+
+  The port of OceanBase vector database.
+
+- OCEANBASE_VECTOR_USER 
+
+  The username of OceanBase vector database.
+
+- OCEANBASE_VECTOR_PASSWORD
+
+  The password of OceanBase vector database user.
+
+- OCEANBASE_VECTOR_DATABASE
+
+  The database name of OceanBase vector database.
+
+- OCEANBASE_CLUSTER_NAME
+
+  The cluster name of OceanBase vector database, only available for Docker deployment.
+
+- OCEANBASE_MEMORY_LIMIT
+
+  The memory limit of OceanBase vector database, only available for Docker deployment.
+
+- TABLESTORE_ENDPOINT 
+
+  The endpoint address of the TableStore server (e.g. 'https://instance-name.cn-hangzhou.ots.aliyuncs.com')
+
+- TABLESTORE_INSTANCE_NAME
+
+  The instance name to access TableStore server (e.g. 'instance-name')
+
+- TABLESTORE_ACCESS_KEY_ID
+
+  The accessKey id for the instance name
+
+- TABLESTORE_ACCESS_KEY_SECRET
+
+  The accessKey secret for the instance name
+
+- LINDORM\_URL
+
+  The URL of LINDORM search engine，you can get it from [the console](https://lindorm.console.aliyun.com/)
+
+- LINDORM\_USERNAME
+
+  The username of lindorm search engine
+
+- LINDORM\_PASSWORD
+
+  The password of lindorm search engine
+
+- TENCENT\_VECTOR\_DB\_URL
+
+    The access address for Tencent Cloud VectorDB can be obtained from [the console](https://console.cloud.tencent.com/vdb).
+
+- TENCENT\_VECTOR\_DB\_API_KEY
+
+    The API key (password) for the VectorDB server is used for identity authentication. [Key Management](https://cloud.tencent.com/document/product/1709/95108).
+
+- TENCENT\_VECTOR\_DB\_USERNAME
+
+    The vector database account, default 'root'. [Account Management](https://cloud.tencent.com/document/product/1709/115833).
+
+- TENCENT\_VECTOR\_DB\_TIMEOUT
+
+    Set the default request timeout duration.
+
+- TENCENT\_VECTOR\_DB\_DATABASE
+
+    Set up a Database for storing data. [Create Database](https://cloud.tencent.com/document/product/1709/95822)。
+
+- TENCENT\_VECTOR\_DB\_SHARD
+
+    Specify the number of shards.
+
+- TENCENT\_VECTOR\_DB\_REPLICAS
+
+    Specify the number of replicas.
+
+- TENCENT\_VECTOR\_DB\_ENABLE\_HYBRID\_SEARCH
+
+    Specify whether to enable HybridSearch. [Sparse Vector Documentation](https://cloud.tencent.com/document/product/1709/110110)。
+
+- OPENGAUSS_HOST
+
+  The hostname or IP address of the openGauss vector database.
+
+- OPENGAUSS_PORT
+
+  The port of the openGauss vector database.
+
+- OPENGAUSS_USER
+
+  The username of the openGauss vector database.
+
+- OPENGAUSS_PASSWORD
+
+  The password of the openGauss vector database.
+
+- OPENGAUSS_DATABASE
+
+  The database name of the openGauss vector database.
+
+- OPENGAUSS_MIN_CONNECTION
+
+  Min connection of the openGauss vector database.
+
+- OPENGAUSS_MAX_CONNECTION
+
+  Max connection of the openGauss vector database.
+
+- OPENGAUSS_ENABLE_PQ
+
+  Enabling PQ Acceleration for the openGauss vector database.
+
 #### Knowledge Configuration
 
 - UPLOAD_FILE_SIZE_LIMIT:
@@ -434,6 +571,10 @@ Used to store uploaded data set files, team/tenant encryption keys, and other fi
   Unstructured API path, needs to be configured when ETL_TYPE is Unstructured.
 
   For example: `http://unstructured:8000/general/v0/general`
+
+- TOP_K_MAX_VALUE
+  
+  The maximum top-k value of RAG, default 10.
 
 #### Multi-modal Configuration
 
@@ -610,3 +751,21 @@ Used to set the browser policy for session cookies used for identity verificatio
 - COOKIE_SECURE
 
   Cookie Secure configuration, default is false.
+
+### Chunk Length Configuration
+
+#### INDEXING_MAX_SEGMENTATION_TOKENS_LENGTH 
+
+Configuration for document chunk length. It is used to control the size of text segments when processing long documents. Default: 500. Maximum: 4000.
+
+**Larger Chunks**
+- Retain more context within each chunk, ideal for tasks requiring a broader understanding of the text.
+- Reduce the total number of chunks, lowering processing time and storage overhead.
+
+**Smaller Chunks**
+- Provide finer granularity, improving accuracy for tasks like extraction or summarization.
+- Reduce the risk of exceeding model token limits, making it safer for models with stricter constraints.
+
+**Configuration Recommendations**
+- Choose larger chunks for context-heavy tasks like sentiment analysis or document summarization.
+- Choose smaller chunks for fine-grained tasks such as keyword extraction or paragraph-level processing.

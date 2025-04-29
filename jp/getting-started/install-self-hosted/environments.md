@@ -1,5 +1,13 @@
 # 環境変数の説明
 
+{% hint style="warning" %}
+このドキュメントは最新でない可能性があります。最新の構成ファイルをご参照ください：
+
+- [docker-compose.yaml](https://github.com/langgenius/dify/blob/5f8d20b5b2bb51f19547467167b18d9c0f6ffbb8/docker/docker-compose.yaml)
+
+- [.env.example](https://github.com/langgenius/dify/blob/5f8d20b5b2bb51f19547467167b18d9c0f6ffbb8/docker/.env.example)
+{% endhint %}
+
 ### 公共変数
 
 #### CONSOLE\_API\_URL
@@ -172,7 +180,7 @@ dockerイメージまたはdocker-composeによる起動時にのみ有効です
 
     フォーマットは以下の通りです（直接接続モード）
 
-    <pre><code><strong>redis://&#x3C;redis_username>:&#x3C;redis_password>@&#x3C;redis_host>:&#x3C;redis_port>/&#x3C;redis_database>
+    <pre><code><strong>redis://<redis_username>:<redis_password>@<redis_host>:<redis_port>/<redis_database>
     </strong><strong>  
     </strong></code></pre>
 
@@ -180,7 +188,7 @@ dockerイメージまたはdocker-composeによる起動時にのみ有効です
 
     Sentinelモード
 
-    <pre><code><strong>sentinel://&#x3C;sentinel_username>:&#x3C;sentinel_password>@&#x3C;sentinel_host>:&#x3C;sentinel_port>/&#x3C;redis_database>
+    <pre><code><strong>sentinel://<sentinel_username>:<sentinel_password>@<sentinel_host>:<sentinel_port>/<redis_database>
     </strong><strong>  
     </strong></code></pre>
 
@@ -234,6 +242,10 @@ dockerイメージまたはdocker-composeによる起動時にのみ有効です
     *   azure-blob
 
         Azure Blobストレージ。この場合、以下のAZURE_BLOB\_ プレフィックスを設定する必要があります。
+    
+    *   aliyun-oss
+    
+        Alibaba Cloud OSS オブジェクト ストレージ。 このオプションが選択されている場合は、次の ALIYUN_OSS\_ という接頭辞が付いた構成を設定する必要があります。
 
     *   huawei-obs
 
@@ -280,6 +292,12 @@ dockerイメージまたはdocker-composeによる起動時にのみ有効です
     * `tidb_vector`
     * `analyticdb`
     * `couchbase`
+    * `oceanbase`
+    * `tablestore`
+    * `lindorm`
+    * `tencent`
+    * `opengauss`
+
 *   WEAVIATE\_ENDPOINT
 
     Weaviateエンドポイントアドレス（例：`http://weaviate:8080`）。
@@ -314,7 +332,7 @@ dockerイメージまたはdocker-composeによる起動時にのみ有効です
 
 *   MILVUS\_URI
 
-    MilvusのURI設定。例：http://localhost:19530 。Zilliz Cloudの場合は、URIとトークンを [パブリックエンドポイントとAPIキー](https://docs.zilliz.com/docs/on-zilliz-cloud-console#free-cluster-details) に調整してください。
+    MilvusのURI設定。例：`http://host.docker.internal:19530`。[Zilliz Cloud](https://zilliz.com/jp/cloud)の場合は、URIとトークンを パブリックエンドポイントとAPIキーに調整してください。
 
 *   MILVUS\_TOKEN
 
@@ -399,6 +417,126 @@ dockerイメージまたはdocker-composeによる起動時にのみ有効です
 
     使用するスコープの名前です。
 
+*   OCEANBASE\_VECTOR\_HOST
+
+    OceanBase Vector ホスト。
+
+*   OCEANBASE\_VECTOR\_PORT
+
+    OceanBase Vector ポート。
+
+*   OCEANBASE\_VECTOR\_USER
+
+    OceanBase Vector ユーザー名。
+
+*   OCEANBASE\_VECTOR\_PASSWORD
+
+    OceanBase Vector パスワード。
+
+*   OCEANBASE\_VECTOR\_DATABASE
+
+    OceanBase Vector データベース名。
+
+*   OCEANBASE\_CLUSTER\_NAME
+
+    OceanBase クラスタ名，Docker デプロイメントのみ。
+
+*   OCEANBASE\_MEMORY\_LIMIT
+
+    OceanBase メモリ使用上限，Docker デプロイメントのみ。
+
+*   TABLESTORE\_ENDPOINT
+
+    TablestoreのアクセスEndpoint。
+
+*   TABLESTORE\_INSTANCE\_NAME
+
+    Tablestoreのアクセスインスタンス名。
+
+*   TABLESTORE\_ACCESS\_KEY\_ID
+
+    TablestoreのアクセスID。
+
+*   TABLESTORE\_ACCESS\_KEY\_SECRET
+
+    Tablestoreのアクセスキー。
+
+*   LINDORM\_URL
+
+    LINDORM の検索エンジンアドレスは、[コンソール](https://lindorm.console.aliyun.com/)から取得できます。
+
+*   LINDORM\_USERNAME
+
+    LINDORM のユーザー名
+
+*   LINDORM\_PASSWORD
+
+    LINDORM アクセスパスワード
+
+*   TENCENT\_VECTOR\_DB\_URL
+
+    腾讯云ベクトルデータベースのアクセスアドレスは、[コンソール](https://console.cloud.tencent.com/vdb)から取得できます。
+
+*   TENCENT\_VECTOR\_DB\_API_KEY
+    ベクトルデータベースサーバーのAPIキー（パスワード）は、認証を行うために使用されます。[キー管理](https://cloud.tencent.com/document/product/1709/95108)。
+
+*   TENCENT\_VECTOR\_DB\_USERNAME
+
+    ベクトルデータベースのアカウントは、デフォルトでrootです。[アカウントと権限管理](https://cloud.tencent.com/document/product/1709/115833)。
+
+*   TENCENT\_VECTOR\_DB\_TIMEOUT
+
+    デフォルトのリクエストタイムアウト時間を設定します。
+
+*   TENCENT\_VECTOR\_DB\_DATABASE
+
+    データベース（Database）とは、データ構造に基づいてデータを組織化し、保存および管理する倉庫であり、一つのインスタンスで複数のDatabaseを作成することができます。
+    [新しいDatabaseを作成します](https://cloud.tencent.com/document/product/1709/95822)。
+
+*   TENCENT\_VECTOR\_DB\_SHARD
+
+    シャード数を指定します。
+
+*   TENCENT\_VECTOR\_DB\_REPLICAS
+
+    レプリカ数を指定します。
+
+*   TENCENT\_VECTOR\_DB\_ENABLE\_HYBRID\_SEARCH
+
+    HybridSearchを有効にするかどうかを指定します。[スパースベクトル文書](https://cloud.tencent.com/document/product/1709/110110)。
+
+*   OPENGAUSS\_HOST
+
+    openGaussベクトルデータベースのホスト名またはIPアドレス。
+
+*   OPENGAUSS\_PORT
+
+    openGaussベクトルデータベースのポート。
+
+*   OPENGAUSS\_USER
+
+    openGaussベクトルデータベースのユーザー名。
+
+*   OPENGAUSS\_PASSWORD
+
+    openGaussベクトルデータベースのパスワード。
+
+*   OPENGAUSS\_DATABASE
+
+    openGaussベクトルデータベースのデータベース名。
+
+*   OPENGAUSS\_MIN\_CONNECTION
+
+    openGaussベクトルデータベースの最小接続。
+
+*   OPENGAUSS\_MAX\_CONNECTION
+
+    openGaussベクトルデータベースの最大接続数。
+
+*   OPENGAUSS\_ENABLE\_PQ
+
+    openGaussベクトルデータベースのPQ加速を有効にします。
+
 #### ナレッジベース設定
 
 *   UPLOAD\_FILE\_SIZE\_LIMIT
@@ -426,6 +564,10 @@ dockerイメージまたはdocker-composeによる起動時にのみ有効です
     ETL\_TYPEがUnstructuredの場合、Unstructured APIパスの設定が必要です。
 
     例：`http://unstructured:8000/general/v0/general`
+
+* TOP_K_MAX_VALUE
+
+    RAG の最大の上位 k 値。デフォルトは 10。
 
 #### マルチモーダルモデル設定
 
@@ -598,3 +740,21 @@ API サービスによってインターフェース ID 検証にのみ使用さ
 *   COOKIE\_SECURE
 
     クッキーの Secure 設定、デフォルトは false。
+
+### 文書チャンク長の設定
+
+#### INDEXING_MAX_SEGMENTATION_TOKENS_LENGTH 
+
+文書チャンク長の設定。長文処理時のテキストセグメントサイズを制御するために使用。デフォルト値：500。最大値：4000。
+
+**大きなチャンク**
+- 単一のチャンク内により多くの文脈を保持でき、複雑または文脈依存のタスクに適しています。
+- チャンク数が減少し、処理時間やストレージの負担が軽減されます。
+
+**小さなチャンク**
+- より細かい粒度を提供し、正確な情報抽出や要約タスクに適しています。
+- モデルのトークン制限を超えるリスクを低減し、制限の厳しいモデルに適応します。
+
+**設定の推奨**
+- 大きなチャンク: 文脈依存性が高いタスク（例: 感情分析や長文の要約）に適しています。
+- 小さなチャンク: 詳細な分析が必要なタスク（例: キーワード抽出や段落レベルの内容処理）に適しています。

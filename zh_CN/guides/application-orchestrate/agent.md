@@ -1,10 +1,10 @@
 # Agent
 
-### 定义
+## 定义
 
 智能助手（Agent Assistant），利用大语言模型的推理能力，能够自主对复杂的人类任务进行目标规划、任务拆解、工具调用、过程迭代，并在没有人类干预的情况下完成任务。
 
-### 如何使用智能助手
+## 如何使用智能助手
 
 为了方便快速上手使用，你可以在“探索”中找到智能助手的应用模板，添加到自己的工作区，或者在此基础上进行自定义。在全新的 Dify 工作室中，你也可以从零编排一个专属于你自己的智能助手，帮助你完成财务报表分析、撰写报告、Logo 设计、旅程规划等任务。
 
@@ -18,7 +18,7 @@
 
 <figure><img src="../../.gitbook/assets/image (99).png" alt=""><figcaption><p>编排智能助手的指令提示词</p></figcaption></figure>
 
-### 添加助手需要的工具
+## 添加助手需要的工具
 
 在“上下文”中，你可以添加智能助手可以用于查询的知识库工具，这将帮助它获取外部背景知识。
 
@@ -34,7 +34,7 @@
 
 ![](../../.gitbook/assets/zh-agent-dalle3.png)
 
-### 配置 Agent
+## 配置 Agent
 
 在 Dify 上为智能助手提供了 Function calling（函数调用）和 ReAct 两种推理模式。已支持 Function Call 的模型系列如 gpt-3.5/gpt-4 拥有效果更佳、更稳定的表现，尚未支持 Function calling 的模型系列，我们支持了 ReAct 推理框架实现类似的效果。
 
@@ -44,7 +44,7 @@
 
 <figure><img src="../../.gitbook/assets/image (110).png" alt=""><figcaption><p>ReAct 模式</p></figcaption></figure>
 
-### 配置对话开场白
+## 配置对话开场白
 
 你可以为智能助手配置一套会话开场白和开场问题，配置的对话开场白将在每次用户初次对话中展示助手可以完成什么样的任务，以及可以提出的问题示例。
 
@@ -58,12 +58,12 @@
 
 ![](https://assets-docs.dify.ai/2024/11/9f0b7a3c67b58c0bd7926501284cbb7d.png)
 
-### 调试与预览
+## 调试与预览
 
 编排完智能助手之后，你可以在发布成应用之前进行调试与预览，查看助手的任务完成效果。
 
 <figure><img src="../../.gitbook/assets/image (104).png" alt=""><figcaption><p>调试与预览</p></figcaption></figure>
 
-### 应用发布
+## 应用发布
 
 <figure><img src="../../.gitbook/assets/image (105).png" alt=""><figcaption><p>应用发布为 Webapp</p></figcaption></figure>

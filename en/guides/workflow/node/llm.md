@@ -131,6 +131,187 @@ If you do not understand what these parameters are, you can choose to load prese
 
 **Error Handling**: Provides diverse node error handling strategies that can throw error messages when the current node fails without interrupting the main process, or continue completing tasks through backup paths. For detailed information, please refer to the [Error Handling](https://docs.dify.ai/guides/workflow/error-handling).
 
+**Structured Outputs**: Ensures LLM returns data in a usable, stable, and predictable format, helping users to control exactly how their LLM nodes returns data. 
+
+<details>
+<summary>JSON Schema Editor</summary>
+
+The **JSON Schema Editor** in LLM nodes lets you define how you want your data structured. You can use either the **Visual Editor** for a user-friendly experience or the **JSON Schema** for more precise control.
+
+{% hint style="info" %}
+JSON Schema Editor supports structured outputs across all models:
+
+- Models with Native Support: Can directly use JSON Schema definitions.
+
+- Models without Native Support: Not all models handle structured outputs reliably. We wll include your schema in the prompt, but response formatting may vary by model.
+{% endhint %}
+
+**Get Started**
+
+Access the editor through **LLM Node > Output Variables > Structured > Configure**. You can switch between visual and JSON Schema editing modes.
+
+![JSON Schema Editor](https://assets-docs.dify.ai/2025/04/646805384efa3cd85869d23a4d9735ad.png)
+
+***Visual Editor***
+
+**When to Use**
+
+- For simple fields such as `name`, `email`, `age` without nested structures
+
+- If you prefer a drag-and-drop way over writing JSON
+
+- When you need to quickly iterate on your schema structure
+
+![Visual Editor](https://assets-docs.dify.ai/2025/04/a9d6a34a7903f81e4d57c7f1d8d0712b.png)
+
+**Add Fields**
+
+Click **Add Field** and set parameters below:
+
+- *(required)* Field Name
+
+- *(required)* Field Type: Choose from string, number, object, array, etc.
+
+  > Note: Object and array type fields can contain child fields.
+
+- Description: Helps the LLM understand what the field means.
+
+- Required: Ensures the LLM always includes this field in its output.
+
+- Enum: Restricts possible values. For example, to allow only red, green, blue:
+
+```
+{
+  "type": "string",
+  "enum": ["red", "green", "blue"]
+}
+```
+
+**Manage Fields**
+
+- To Edit: Hover over a field and click the Edit icon.
+
+- To Delete: Hover over a field and click the Delete icon.
+
+  > Note: Deleting an object or array removes all its child fields.
+
+**Import from JSON**
+
+1. Click **Import from JSON** and paste your example:
+
+```
+{
+ "comment": "This is great!",
+ "rating": 5
+}
+```
+
+2. Click **Submit** to convert it into a schema.
+
+**Generate with AI**
+
+1. Click the AI Generate icon, select a model (like GPT-4o), and describe what you need:
+
+  > "I need a JSON Schema for user profiles with username (string), age (number), and interests (array)."
+
+2. Click **Generate** to create a schema:
+
+```
+{
+  "type": "object",
+  "properties": {
+    "username": {
+      "type": "string"
+    },
+    "age": {
+      "type": "number"
+    },
+    "interests": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": ["username", "age", "interests"]
+}
+```
+
+***JSON Schema***
+
+**When to Use**
+
+- For complex fields that need nesting, (e.g., `order_details`, `product_lists`)
+
+- When you want to import and modify existing JSON Schemas or API examples
+
+- When you need advanced schema features, such as `pattern` (regex matching) or `oneOf` (multiple type support)
+
+- When you want to fine-tune an AI-generated schema to fit your exact requirements
+
+![JSON Schema](https://assets-docs.dify.ai/2025/04/669af808dd9d0d8521a36e14db731cec.png)
+
+**Add Fields**
+
+1. Click **Import from JSON** and add your field structure:
+
+```
+{
+  "name": "username",
+  "type": "string",
+  "description": "user's name",
+  "required": true
+}
+```
+
+2. Click **Save**. Your schema will be validated automatically.
+
+**Manage Fields**: Edit field types, descriptions, default values, etc. in the JSON code box, and then click **Save**.
+
+**Import from JSON**
+
+1. Click **Import from JSON** and paste your example:
+
+```
+{
+ "comment": "This is great!",
+ "rating": 5
+}
+```
+
+2. Click **Submit** to convert it into a schema.
+
+**Generate with AI**
+
+1. Click the AI Generate icon, select a model (like GPT-4o), and describe what you need:
+
+  > "I need a JSON Schema for user profiles with username (string), age (number), and interests (array)."
+
+2. Click **Generate** to create a schema:
+
+```
+{
+  "type": "object",
+  "properties": {
+    "username": {
+      "type": "string"
+    },
+    "age": {
+      "type": "number"
+    },
+    "interests": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": ["username", "age", "interests"]
+}
+```
+
+</details>
+
 ***
 
 #### Use Cases
@@ -173,3 +354,11 @@ When processing information, LLM nodes may encounter errors such as input text e
 <figure><img src="https://assets-docs.dify.ai/2024/12/f7109ce5e87c0e0a81248bb2672c7667.png" alt=""><figcaption><p>input system prompts</p></figcaption></figure>
 
 For more information about exception handling methods, please refer to the [Error Handling](https://docs.dify.ai/guides/workflow/error-handling).
+
+* **Structured Outputs**
+
+**Case: Customer Information Intake Form**
+
+Watch the following video to learn how to use JSON Schema Editor to collect customer information:
+
+{% embed url="https://youtu.be/u8NQFxrsaW0" %}

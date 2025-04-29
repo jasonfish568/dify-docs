@@ -18,7 +18,8 @@
 克隆 Dify 源代码至本地环境。
 
 ```bash
-git clone https://github.com/langgenius/dify.git
+# 假设当前最新版本为 0.15.3
+git clone https://github.com/langgenius/dify.git --branch 0.15.3
 ```
 
 ### 启动 Dify
@@ -87,7 +88,7 @@ docker-web-1          langgenius/dify-web:0.6.13         "/bin/sh ./entrypoin…
 docker-worker-1       langgenius/dify-api:0.6.13         "/bin/bash /entrypoi…"   worker       About a minute ago   Up About a minute             5001/tcp
 ```
 
-通过这些步骤，你应该可以成功在本地安装 Dify。
+通过这些步骤，你可以在本地成功安装 Dify。
 
 ### 更新 Dify
 
@@ -115,7 +116,6 @@ docker compose up -d
 http://localhost/install
 
 # 服务器环境
-
 http://your_server_ip/install
 ```
 
