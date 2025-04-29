@@ -22,6 +22,13 @@ window.difyChatbotConfig = {
     draggable: false,
     // Optional, The axis along which the button is allowed to be dragged, default is `both`, can be `x`, `y`, `both`
     dragAxis: 'both',
+    // Optional, An object of system variables that set in the dify chatbot
+    systemVariables: {
+        // key is the system variable name
+        // e.g.
+        // user_id: "YOU CAN DEFINE USER ID HERE",
+        // conversation_id: "YOU CAN DEFINE CONVERSATION ID HERE, IT MUST BE A VALID UUID"
+    },
     // Optional, An object of inputs that set in the dify chatbot
     inputs: {
         // key is the variable name
@@ -132,5 +139,4 @@ window.difyChatbotConfig = {
 
 Note: When using the embed.js script to create an iframe, each input value will be processed—compressed using GZIP and encoded in base64—before being appended to the URL.
 
-For example, the URL with processed input values will look like this:
-`http://localhost/chatbot/{token}?name=H4sIAKUlmWYA%2FwWAIQ0AAACDsl7gLuiv2PQEUNAuqQUAAAA%3D`
+For example, the URL with processed input values will look like this: `http://localhost/chatbot/{token}?name=H4sIAKUlmWYA%2FwWAIQ0AAACDsl7gLuiv2PQEUNAuqQUAAAA%3D`

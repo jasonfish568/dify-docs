@@ -1,4 +1,4 @@
-# セルフホスト / ローカル展開に関するよくある質問（FAQ）
+# ローカルデプロイに関するFAQ
 
 ### 1. ローカル展開の初期化後、パスワードが間違っている場合のリセット方法は？
 
@@ -24,12 +24,12 @@ FileNotFoundError: File not found
 
 このエラーは、展開方法の変更や `api/storage/privkeys` ディレクトリの削除によって発生する可能性があります。このファイルは大規模モデルキーの暗号化に使用されるため、損失は不可逆です。次のコマンドを使用して暗号化キーペアをリセットできます：
 
-* Docker Compose デプロイ
+*   Docker Compose デプロイ
 
     ```
     docker exec -it docker-api-1 flask reset-encrypt-key-pair
     ```
-* ソースコードの起動
+*   ソースコードの起動
 
     apiディレクトリに移動し、次のコマンドを実行します：
 
@@ -43,25 +43,21 @@ FileNotFoundError: File not found
 
 これは、ドメイン/URLを変更したため、フロントエンドとバックエンドの間でクロスドメインの問題が発生している可能性があります。クロスドメインとアイデンティティの問題には、次の構成が関係しています：
 
-1. CORS クロスドメイン構成
-   1. `CONSOLE_CORS_ALLOW_ORIGINS`
+1.  CORS クロスドメイン構成
 
-   コンソールCORSポリシー。デフォルトは*で、すべてのドメインがアクセス可能です。
-   2. `WEB_API_CORS_ALLOW_ORIGINS`
+    1. `CONSOLE_CORS_ALLOW_ORIGINS`
 
-   WebAPP CORSポリシー。デフォルトは*で、すべてのドメインがアクセス可能です。
+    コンソールCORSポリシー。デフォルトは\*で、すべてのドメインがアクセス可能です。 2. `WEB_API_CORS_ALLOW_ORIGINS`
+
+    WebAPP CORSポリシー。デフォルトは\*で、すべてのドメインがアクセス可能です。
 
 ### **4. 起動後にページが読み込まれ続け、CORSエラーが表示される場合は？**
 
 これは、ドメイン/URLを変更したため、フロントエンドとバックエンドの間でクロスドメインの問題が発生している可能性があります。`docker-compose.yml`内の次の構成項目を新しいドメインに更新してください：
 
-`CONSOLE_API_URL`: コンソールAPIのバックエンドURL
-`CONSOLE_WEB_URL`: コンソールWebのフロントエンドURL
-`SERVICE_API_URL`: サービスAPIのURL
-`APP_API_URL`: WebApp APIのバックエンドURL
-`APP_WEB_URL`: WebAppのURL
+`CONSOLE_API_URL`: コンソールAPIのバックエンドURL `CONSOLE_WEB_URL`: コンソールWebのフロントエンドURL `SERVICE_API_URL`: サービスAPIのURL `APP_API_URL`: WebApp APIのバックエンドURL `APP_WEB_URL`: WebAppのURL
 
-詳細については、[環境変数](../../getting-started/install-self-hosted/environments)を参照してください。
+詳細については、[環境変数](../../getting-started/install-self-hosted/environments/)を参照してください。
 
 ### 5. 展開後のバージョンアップ方法は？
 
@@ -73,7 +69,7 @@ FileNotFoundError: File not found
 
 ### 6. Notionを使用してインポート時に環境変数を設定する方法は？
 
-[**Notion 統合構成アドレス**](https://www.notion.so/my-integrations)**。**プライベート展開を行う場合は、次の構成を設定してください：
+[**Notion 統合構成アドレス**](https://www.notion.so/my-integrations)\*\*。\*\*プライベート展開を行う場合は、次の構成を設定してください：
 
 1. **`NOTION_INTEGRATION_TYPE`** ：この値は（**public/internal**）に設定する必要があります。Notion の OAuth リダイレクトアドレスは https のみをサポートするため、ローカル展開には Notion の内部統合を使用してください。
 2. **`NOTION_CLIENT_SECRET`** ： Notion OAuth クライアントシークレット（パブリック統合タイプ用）。
@@ -98,7 +94,7 @@ FileNotFoundError: File not found
 
 ### 11. ローカル展開バージョンのデータセットでドキュメントをアップロードする際のサイズと数量制限を解決する方法は？
 
-公式Webサイトの[環境変数](../../getting-started/install-self-hosted/environments)を参照してください。
+公式Webサイトの[環境変数](../../getting-started/install-self-hosted/environments/)を参照してください。
 
 ### 12. ローカル展開バージョンでメール経由でメンバーを招待する方法は？
 
@@ -110,13 +106,13 @@ FileNotFoundError: File not found
 Can't load tokenizer for 'gpt2'. If you were trying to load it from 'https://huggingface.co/models', make sure you don't have a local directory with the same name. Otherwise, make sure 'gpt2' is the correct path to a directory containing all relevant files for a GPT2TokenizerFast tokenizer.
 ```
 
-設定に関しては、公式Webサイトの[環境変数](../../getting-started/install-self-hosted/environments)や関連する[Issue](https://github.com/langgenius/dify/issues/1261)を参照してください。
+設定に関しては、公式Webサイトの[環境変数](../../getting-started/install-self-hosted/environments/)や関連する[Issue](https://github.com/langgenius/dify/issues/1261)を参照してください。
 
 ### 14. ローカル展開バージョンでポート80の競合を解消する方法
 
 ポート80が使用中の場合、ポート80を占有しているサービスを停止するか、docker-compose.yamlでポートマッピングを変更し、ポート80を別のポートにマッピングしてください。通常、ApacheやNginxがこのポートを占有しているため、これらのサービスを停止することで解決できます。
 
-### 15. テキスト読み上げ中に「[openai] Error: ffmpeg is not installed」というエラーが発生した場合の対処方法
+### 15. テキスト読み上げ中に「\[openai] Error: ffmpeg is not installed」というエラーが発生した場合の対処方法
 
 ```
 [openai] Error: ffmpeg is not installed
@@ -187,11 +183,11 @@ flask vdb-migrate # or docker exec -it docker-api-1 flask vdb-migrate
 
 **テスト済みのターゲット データベース:**
 
-- qdrant
-- milvus
-- analyticdb
+* qdrant
+* milvus
+* analyticdb
 
-### 18. SSRF_PROXYが必要な理由とは？
+### 18. SSRF\_PROXYが必要な理由とは？
 
 コミュニティエディションの `docker-compose.yaml` では、一部のサービスに `SSRF_PROXY` と `HTTP_PROXY` 環境変数が設定されています。これらは全て、`ssrf_proxy` コンテナを指しており、SSRF攻撃を防ぐために利用されています。SSRF攻撃について詳しく学びたい方は、[こちらの記事](https://portswigger.net/web-security/ssrf)をご覧ください。
 
@@ -237,8 +233,7 @@ docker ps -q | xargs -n 1 docker inspect --format '{{ .Name }}: {{range .Network
 
 ### 21. コンテンツ セキュリティ ポリシーを有効にするにはどうすればよいですか?
 
-`.env`構成ファイルで`CSP_WHITELIST`パラメータを見つけて、製品の使用に関連するすべての URL や API リクエスト アドレスなど、許可できるドメイン名を入力します。
-この動きは、潜在的な XSS 攻撃を減らすのに役立ちます。 CSP に関する推奨事項の詳細については、[コンテンツ セキュリティ ポリシー](https://developer.mozilla.org/ja/docs/Web/HTTP/CSP) を参照してください。
+`.env`構成ファイルで`CSP_WHITELIST`パラメータを見つけて、製品の使用に関連するすべての URL や API リクエスト アドレスなど、許可できるドメイン名を入力します。 この動きは、潜在的な XSS 攻撃を減らすのに役立ちます。 CSP に関する推奨事項の詳細については、[コンテンツ セキュリティ ポリシー](https://developer.mozilla.org/ja/docs/Web/HTTP/CSP) を参照してください。
 
 ### 22. APIサービスのポート番号を変更する方法
 
@@ -246,30 +241,33 @@ API サービスのポートは、Dify プラットフォームで使用され�
 
 ### 23. ファイルをローカルストレージからクラウドストレージに移行する方法
 
-ファイルをローカルストレージからクラウドストレージ（例：Alibaba Cloud OSS）に移行するには、'upload_files'と'privkeys'ディレクトリからデータを移行する必要があります。以下の手順に従って操作してください：
+ファイルをローカルストレージからクラウドストレージ（例：Alibaba Cloud OSS）に移行するには、'upload\_files'と'privkeys'ディレクトリからデータを移行する必要があります。以下の手順に従って操作してください：
 
-1. ストレージ設定を構成する
+1.  ストレージ設定を構成する
 
-   ローカルソースコードデプロイメントの方法：
-   - `.env`ファイルでストレージ設定を更新します
-   - `STORAGE_TYPE=aliyun-oss`を設定します
-   - Alibaba Cloud OSSの認証情報を設定します
+    ローカルソースコードデプロイメントの方法：
 
-   Docker Composeデプロイメントの方法：
-   - `docker-compose.yaml`ファイルでストレージ設定を更新します
-   - `STORAGE_TYPE: aliyun-oss`を設定します
-   - Alibaba Cloud OSSの認証情報を設定します
+    * `.env`ファイルでストレージ設定を更新します
+    * `STORAGE_TYPE=aliyun-oss`を設定します
+    * Alibaba Cloud OSSの認証情報を設定します
 
-2. 移行コマンドを実行する
+    Docker Composeデプロイメントの方法：
 
-   ローカルソースコードの場合：
-   ```bash
-   flask upload-private-key-file-to-cloud-storage
-   flask upload-local-files-to-cloud-storage
-   ```
+    * `docker-compose.yaml`ファイルでストレージ設定を更新します
+    * `STORAGE_TYPE: aliyun-oss`を設定します
+    * Alibaba Cloud OSSの認証情報を設定します
+2.  移行コマンドを実行する
 
-   Docker Composeの場合：
-   ```bash
-   docker exec -it docker-api-1 flask upload-private-key-file-to-cloud-storage
-   docker exec -it docker-api-1 flask upload-local-files-to-cloud-storage
-   ```
+    ローカルソースコードの場合：
+
+    ```bash
+    flask upload-private-key-file-to-cloud-storage
+    flask upload-local-files-to-cloud-storage
+    ```
+
+    Docker Composeの場合：
+
+    ```bash
+    docker exec -it docker-api-1 flask upload-private-key-file-to-cloud-storage
+    docker exec -it docker-api-1 flask upload-local-files-to-cloud-storage
+    ```

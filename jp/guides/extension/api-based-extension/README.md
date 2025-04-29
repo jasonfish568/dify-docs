@@ -21,10 +21,10 @@ POST {Your-API-Endpoint}
 
 #### ヘッダー <a href="#user-content-header" id="user-content-header"></a>
 
-| Header     | Value           | Desc                                                        |
-| ---------- | --------------- | ----------------------------------------------------------- |
-| `Content-Type` | application/json   | リクエスト内容はJSON形式です。                                           |
-| `Authorization`       | Bearer {api\_key} | APIキーはトークン形式で送信されます。`api_key`を解析し、提供されたAPIキーと一致するか確認してください。 |
+| Header          | Value             | Desc                                                        |
+| --------------- | ----------------- | ----------------------------------------------------------- |
+| `Content-Type`  | application/json  | リクエスト内容はJSON形式です。                                           |
+| `Authorization` | Bearer {api\_key} | APIキーはトークン形式で送信されます。`api_key`を解析し、提供されたAPIキーと一致するか確認してください。 |
 
 #### リクエストボディ <a href="#user-content-request-body" id="user-content-request-body"></a>
 
@@ -232,7 +232,7 @@ Difyクラウド版は内網APIサービスにアクセスできないため、�
 
     <figure><img src="../../../.gitbook/assets/download.png" alt=""><figcaption><p>ダウンロード</p></figcaption></figure>
 2. ダウンロードが完了したら、ダウンロードディレクトリに移動し、以下の説明に従って圧縮ファイルを解凍し、初期化スクリプトを実行します。
-   * ```Shell
+   * ```shell
      $ unzip /path/to/ngrok.zip
      $ ./ngrok config add-authtoken あなたのトークン
      ```
@@ -242,7 +242,7 @@ Difyクラウド版は内網APIサービスにアクセスできないため、�
 
 次に以下のコマンドを実行して開始します：
 
-*   ```Shell
+*   ```shell
     $ ./ngrok http ポート番号
     ```
 
@@ -254,7 +254,7 @@ Difyクラウド版は内網APIサービスにアクセスできないため、�
 
 * 上記の例に従って、ローカルで既に起動しているサービスエンドポイントを公開し、コード例のインターフェース：`http://127.0.0.1:8000/api/dify/receive`を`https://177e-159-223-41-52.ngrok-free.app/api/dify/receive`に置き換えます。
 
-これで、このAPIエンドポイントはパブリックアクセス可能となります。これで、DifyでこのAPIエンドポイントを設定してローカルデバッグコードを実行できます。設定手順については、[external-data-tool.md](../../knowledge-base/external-data-tool.md "mention")を参照してください。
+これで、このAPIエンドポイントはパブリックアクセス可能となります。これで、DifyでこのAPIエンドポイントを設定してローカルデバッグコードを実行できます。設定手順については、[Broken link](broken-reference "mention")を参照してください。
 
 ### Cloudflare Workersを使用したAPIエクステンションのデプロイ
 

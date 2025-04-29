@@ -19,9 +19,9 @@ def validate_provider_credentials(self, credentials: dict) -> None:
     """
 ```
 
-- `credentials` (object) 凭据信息
+*   `credentials` (object) 凭据信息
 
-  凭据信息的参数由供应商 YAML 配置文件的 `provider_credential_schema` 定义，传入如：`api_key` 等。
+    凭据信息的参数由供应商 YAML 配置文件的 `provider_credential_schema` 定义，传入如：`api_key` 等。
 
 验证失败请抛出 `errors.validate.CredentialsValidateFailedError` 错误。
 
@@ -41,58 +41,56 @@ class XinferenceProvider(Provider):
 
 所有模型均需要统一实现下面 2 个方法：
 
-- 模型凭据校验
+*   模型凭据校验
 
-  与供应商凭据校验类似，这里针对单个模型进行校验。
+    与供应商凭据校验类似，这里针对单个模型进行校验。
 
-  ```python
-  def validate_credentials(self, model: str, credentials: dict) -> None:
-      """
-      Validate model credentials
-  
-      :param model: model name
-      :param credentials: model credentials
-      :return:
-      """
-  ```
+    ```python
+    def validate_credentials(self, model: str, credentials: dict) -> None:
+        """
+        Validate model credentials
 
-  参数：
+        :param model: model name
+        :param credentials: model credentials
+        :return:
+        """
+    ```
 
-  - `model` (string) 模型名称
+    参数：
 
-  - `credentials` (object) 凭据信息
+    * `model` (string) 模型名称
+    *   `credentials` (object) 凭据信息
 
-    凭据信息的参数由供应商 YAML 配置文件的 `provider_credential_schema` 或 `model_credential_schema` 定义，传入如：`api_key` 等。
+        凭据信息的参数由供应商 YAML 配置文件的 `provider_credential_schema` 或 `model_credential_schema` 定义，传入如：`api_key` 等。
 
-  验证失败请抛出 `errors.validate.CredentialsValidateFailedError` 错误。
+    验证失败请抛出 `errors.validate.CredentialsValidateFailedError` 错误。
+*   调用异常错误映射表
 
-- 调用异常错误映射表
+    当模型调用异常时需要映射到 Runtime 指定的 `InvokeError` 类型，方便 Dify 针对不同错误做不同后续处理。
 
-  当模型调用异常时需要映射到 Runtime 指定的 `InvokeError` 类型，方便 Dify 针对不同错误做不同后续处理。
+    Runtime Errors:
 
-  Runtime Errors:
+    * `InvokeConnectionError` 调用连接错误
+    * `InvokeServerUnavailableError` 调用服务方不可用
+    * `InvokeRateLimitError` 调用达到限额
+    * `InvokeAuthorizationError` 调用鉴权失败
+    * `InvokeBadRequestError` 调用传参有误
 
-  - `InvokeConnectionError` 调用连接错误
-  - `InvokeServerUnavailableError ` 调用服务方不可用
-  - `InvokeRateLimitError ` 调用达到限额
-  - `InvokeAuthorizationError`  调用鉴权失败
-  - `InvokeBadRequestError ` 调用传参有误
+    ```python
+    @property
+    def _invoke_error_mapping(self) -> dict[type[InvokeError], list[type[Exception]]]:
+        """
+        Map model invoke error to unified error
+        The key is the error type thrown to the caller
+        The value is the error type thrown by the model,
+        which needs to be converted into a unified error type for the caller.
 
-  ```python
-  @property
-  def _invoke_error_mapping(self) -> dict[type[InvokeError], list[type[Exception]]]:
-      """
-      Map model invoke error to unified error
-      The key is the error type thrown to the caller
-      The value is the error type thrown by the model,
-      which needs to be converted into a unified error type for the caller.
-  
-      :return: Invoke error mapping
-      """
-  ```
+        :return: Invoke error mapping
+        """
+    ```
 
-  也可以直接抛出对应 Errors，并做如下定义，这样在之后的调用中可以直接抛出`InvokeConnectionError`等异常。
-  
+    也可以直接抛出对应 Errors，并做如下定义，这样在之后的调用中可以直接抛出`InvokeConnectionError`等异常。
+
     ```python
     @property
     def _invoke_error_mapping(self) -> dict[type[InvokeError], list[type[Exception]]]:
@@ -115,344 +113,300 @@ class XinferenceProvider(Provider):
         }
     ```
 
-​	可参考 OpenAI `_invoke_error_mapping`。  
+​ 可参考 OpenAI `_invoke_error_mapping`。
 
 ### LLM
 
 继承 `__base.large_language_model.LargeLanguageModel` 基类，实现以下接口：
 
-- LLM 调用
+*   LLM 调用
 
-  实现 LLM 调用的核心方法，可同时支持流式和同步返回。
+    实现 LLM 调用的核心方法，可同时支持流式和同步返回。
 
-  ```python
-  def _invoke(self, model: str, credentials: dict,
-              prompt_messages: list[PromptMessage], model_parameters: dict,
-              tools: Optional[list[PromptMessageTool]] = None, stop: Optional[list[str]] = None,
-              stream: bool = True, user: Optional[str] = None) \
-          -> Union[LLMResult, Generator]:
-      """
-      Invoke large language model
-  
-      :param model: model name
-      :param credentials: model credentials
-      :param prompt_messages: prompt messages
-      :param model_parameters: model parameters
-      :param tools: tools for tool calling
-      :param stop: stop words
-      :param stream: is stream response
-      :param user: unique user id
-      :return: full response or stream response chunk generator result
-      """
-  ```
+    ```python
+    def _invoke(self, model: str, credentials: dict,
+                prompt_messages: list[PromptMessage], model_parameters: dict,
+                tools: Optional[list[PromptMessageTool]] = None, stop: Optional[list[str]] = None,
+                stream: bool = True, user: Optional[str] = None) \
+            -> Union[LLMResult, Generator]:
+        """
+        Invoke large language model
 
-  - 参数：
+        :param model: model name
+        :param credentials: model credentials
+        :param prompt_messages: prompt messages
+        :param model_parameters: model parameters
+        :param tools: tools for tool calling
+        :param stop: stop words
+        :param stream: is stream response
+        :param user: unique user id
+        :return: full response or stream response chunk generator result
+        """
+    ```
 
-    - `model` (string) 模型名称
+    * 参数：
+      * `model` (string) 模型名称
+      *   `credentials` (object) 凭据信息
 
-    - `credentials` (object) 凭据信息
-    
-      凭据信息的参数由供应商 YAML 配置文件的 `provider_credential_schema` 或 `model_credential_schema` 定义，传入如：`api_key` 等。
+          凭据信息的参数由供应商 YAML 配置文件的 `provider_credential_schema` 或 `model_credential_schema` 定义，传入如：`api_key` 等。
+      *   `prompt_messages` (array\[[PromptMessage](interfaces.md#PromptMessage)]) Prompt 列表
 
-    - `prompt_messages` (array[[PromptMessage](#PromptMessage)]) Prompt 列表
-    
-      若模型为 `Completion` 类型，则列表只需要传入一个 [UserPromptMessage](#UserPromptMessage) 元素即可；
-    
-      若模型为 `Chat` 类型，需要根据消息不同传入 [SystemPromptMessage](#SystemPromptMessage), [UserPromptMessage](#UserPromptMessage), [AssistantPromptMessage](#AssistantPromptMessage), [ToolPromptMessage](#ToolPromptMessage) 元素列表
+          若模型为 `Completion` 类型，则列表只需要传入一个 [UserPromptMessage](interfaces.md#UserPromptMessage) 元素即可；
 
-    - `model_parameters` (object) 模型参数
-    
-      模型参数由模型 YAML 配置的 `parameter_rules` 定义。
+          若模型为 `Chat` 类型，需要根据消息不同传入 [SystemPromptMessage](interfaces.md#SystemPromptMessage), [UserPromptMessage](interfaces.md#UserPromptMessage), [AssistantPromptMessage](interfaces.md#AssistantPromptMessage), [ToolPromptMessage](interfaces.md#ToolPromptMessage) 元素列表
+      *   `model_parameters` (object) 模型参数
 
-    - `tools` (array[[PromptMessageTool](#PromptMessageTool)]) [optional] 工具列表，等同于 `function calling` 中的 `function`。
-    
-      即传入 tool calling 的工具列表。
+          模型参数由模型 YAML 配置的 `parameter_rules` 定义。
+      *   `tools` (array\[[PromptMessageTool](interfaces.md#PromptMessageTool)]) \[optional] 工具列表，等同于 `function calling` 中的 `function`。
 
-    - `stop` (array[string]) [optional] 停止序列
-    
-      模型返回将在停止序列定义的字符串之前停止输出。
+          即传入 tool calling 的工具列表。
+      *   `stop` (array\[string]) \[optional] 停止序列
 
-    - `stream` (bool) 是否流式输出，默认 True
-    
-      流式输出返回 Generator[[LLMResultChunk](#LLMResultChunk)]，非流式输出返回 [LLMResult](#LLMResult)。
+          模型返回将在停止序列定义的字符串之前停止输出。
+      *   `stream` (bool) 是否流式输出，默认 True
 
-    - `user` (string) [optional] 用户的唯一标识符
-    
-      可以帮助供应商监控和检测滥用行为。
+          流式输出返回 Generator\[[LLMResultChunk](interfaces.md#LLMResultChunk)]，非流式输出返回 [LLMResult](interfaces.md#LLMResult)。
+      *   `user` (string) \[optional] 用户的唯一标识符
 
-  - 返回
+          可以帮助供应商监控和检测滥用行为。
+    *   返回
 
-    流式输出返回 Generator[[LLMResultChunk](#LLMResultChunk)]，非流式输出返回 [LLMResult](#LLMResult)。
+        流式输出返回 Generator\[[LLMResultChunk](interfaces.md#LLMResultChunk)]，非流式输出返回 [LLMResult](interfaces.md#LLMResult)。
+*   预计算输入 tokens
 
-- 预计算输入 tokens
+    若模型未提供预计算 tokens 接口，可直接返回 0。
 
-  若模型未提供预计算 tokens 接口，可直接返回 0。
+    ```python
+    def get_num_tokens(self, model: str, credentials: dict, prompt_messages: list[PromptMessage],
+                       tools: Optional[list[PromptMessageTool]] = None) -> int:
+        """
+        Get number of tokens for given prompt messages
 
-  ```python
-  def get_num_tokens(self, model: str, credentials: dict, prompt_messages: list[PromptMessage],
-                     tools: Optional[list[PromptMessageTool]] = None) -> int:
-      """
-      Get number of tokens for given prompt messages
+        :param model: model name
+        :param credentials: model credentials
+        :param prompt_messages: prompt messages
+        :param tools: tools for tool calling
+        :return:
+        """
+    ```
 
-      :param model: model name
-      :param credentials: model credentials
-      :param prompt_messages: prompt messages
-      :param tools: tools for tool calling
-      :return:
-      """
-  ```
+    参数说明见上述 `LLM 调用`。
 
-  参数说明见上述 `LLM 调用`。
+    该接口需要根据对应`model`选择合适的`tokenizer`进行计算，如果对应模型没有提供`tokenizer`，可以使用`AIModel`基类中的`_get_num_tokens_by_gpt2(text: str)`方法进行计算。
+*   获取自定义模型规则 \[可选]
 
-  该接口需要根据对应`model`选择合适的`tokenizer`进行计算，如果对应模型没有提供`tokenizer`，可以使用`AIModel`基类中的`_get_num_tokens_by_gpt2(text: str)`方法进行计算。
+    ```python
+    def get_customizable_model_schema(self, model: str, credentials: dict) -> Optional[AIModelEntity]:
+        """
+        Get customizable model schema
 
-- 获取自定义模型规则 [可选]
-
-  ```python
-  def get_customizable_model_schema(self, model: str, credentials: dict) -> Optional[AIModelEntity]:
-      """
-      Get customizable model schema
-
-      :param model: model name
-      :param credentials: model credentials
-      :return: model schema
-      """
-  ```
+        :param model: model name
+        :param credentials: model credentials
+        :return: model schema
+        """
+    ```
 
 ​当供应商支持增加自定义 LLM 时，可实现此方法让自定义模型可获取模型规则，默认返回 None。
 
-对于`OpenAI`供应商下的大部分微调模型，可以通过其微调模型名称获取到其基类模型，如`gpt-3.5-turbo-1106`，然后返回基类模型的预定义参数规则，参考[openai](https://github.com/langgenius/dify-runtime/blob/main/lib/model_providers/anthropic/llm/llm.py)
-的具体实现
+对于`OpenAI`供应商下的大部分微调模型，可以通过其微调模型名称获取到其基类模型，如`gpt-3.5-turbo-1106`，然后返回基类模型的预定义参数规则，参考[openai](https://github.com/langgenius/dify-runtime/blob/main/lib/model_providers/anthropic/llm/llm.py) 的具体实现
 
 ### TextEmbedding
 
 继承 `__base.text_embedding_model.TextEmbeddingModel` 基类，实现以下接口：
 
-- Embedding 调用
+*   Embedding 调用
 
-  ```python
-  def _invoke(self, model: str, credentials: dict,
-              texts: list[str], user: Optional[str] = None) \
-          -> TextEmbeddingResult:
-      """
-      Invoke large language model
-  
-      :param model: model name
-      :param credentials: model credentials
-      :param texts: texts to embed
-      :param user: unique user id
-      :return: embeddings result
-      """
-  ```
+    ```python
+    def _invoke(self, model: str, credentials: dict,
+                texts: list[str], user: Optional[str] = None) \
+            -> TextEmbeddingResult:
+        """
+        Invoke large language model
 
-  - 参数：
+        :param model: model name
+        :param credentials: model credentials
+        :param texts: texts to embed
+        :param user: unique user id
+        :return: embeddings result
+        """
+    ```
 
-    - `model` (string) 模型名称
+    * 参数：
+      * `model` (string) 模型名称
+      *   `credentials` (object) 凭据信息
 
-    - `credentials` (object) 凭据信息
+          凭据信息的参数由供应商 YAML 配置文件的 `provider_credential_schema` 或 `model_credential_schema` 定义，传入如：`api_key` 等。
+      * `texts` (array\[string]) 文本列表，可批量处理
+      *   `user` (string) \[optional] 用户的唯一标识符
 
-      凭据信息的参数由供应商 YAML 配置文件的 `provider_credential_schema` 或 `model_credential_schema` 定义，传入如：`api_key` 等。
+          可以帮助供应商监控和检测滥用行为。
+    *   返回：
 
-    - `texts` (array[string]) 文本列表，可批量处理
+        [TextEmbeddingResult](interfaces.md#TextEmbeddingResult) 实体。
+*   预计算 tokens
 
-    - `user` (string) [optional] 用户的唯一标识符
+    ```python
+    def get_num_tokens(self, model: str, credentials: dict, texts: list[str]) -> int:
+        """
+        Get number of tokens for given prompt messages
 
-      可以帮助供应商监控和检测滥用行为。
+        :param model: model name
+        :param credentials: model credentials
+        :param texts: texts to embed
+        :return:
+        """
+    ```
 
-  - 返回：
+    参数说明见上述 `Embedding 调用`。
 
-    [TextEmbeddingResult](#TextEmbeddingResult) 实体。
-
-- 预计算 tokens
-
-  ```python
-  def get_num_tokens(self, model: str, credentials: dict, texts: list[str]) -> int:
-      """
-      Get number of tokens for given prompt messages
-
-      :param model: model name
-      :param credentials: model credentials
-      :param texts: texts to embed
-      :return:
-      """
-  ```
-
-  参数说明见上述 `Embedding 调用`。
-
-  同上述`LargeLanguageModel`，该接口需要根据对应`model`选择合适的`tokenizer`进行计算，如果对应模型没有提供`tokenizer`，可以使用`AIModel`基类中的`_get_num_tokens_by_gpt2(text: str)`方法进行计算。
+    同上述`LargeLanguageModel`，该接口需要根据对应`model`选择合适的`tokenizer`进行计算，如果对应模型没有提供`tokenizer`，可以使用`AIModel`基类中的`_get_num_tokens_by_gpt2(text: str)`方法进行计算。
 
 ### Rerank
 
 继承 `__base.rerank_model.RerankModel` 基类，实现以下接口：
 
-- rerank 调用
+*   rerank 调用
 
-  ```python
-  def _invoke(self, model: str, credentials: dict,
-              query: str, docs: list[str], score_threshold: Optional[float] = None, top_n: Optional[int] = None,
-              user: Optional[str] = None) \
-          -> RerankResult:
-      """
-      Invoke rerank model
-  
-      :param model: model name
-      :param credentials: model credentials
-      :param query: search query
-      :param docs: docs for reranking
-      :param score_threshold: score threshold
-      :param top_n: top n
-      :param user: unique user id
-      :return: rerank result
-      """
-  ```
+    ```python
+    def _invoke(self, model: str, credentials: dict,
+                query: str, docs: list[str], score_threshold: Optional[float] = None, top_n: Optional[int] = None,
+                user: Optional[str] = None) \
+            -> RerankResult:
+        """
+        Invoke rerank model
 
-  - 参数：
+        :param model: model name
+        :param credentials: model credentials
+        :param query: search query
+        :param docs: docs for reranking
+        :param score_threshold: score threshold
+        :param top_n: top n
+        :param user: unique user id
+        :return: rerank result
+        """
+    ```
 
-    - `model` (string) 模型名称
+    * 参数：
+      * `model` (string) 模型名称
+      *   `credentials` (object) 凭据信息
 
-    - `credentials` (object) 凭据信息
+          凭据信息的参数由供应商 YAML 配置文件的 `provider_credential_schema` 或 `model_credential_schema` 定义，传入如：`api_key` 等。
+      * `query` (string) 查询请求内容
+      * `docs` (array\[string]) 需要重排的分段列表
+      * `score_threshold` (float) \[optional] Score 阈值
+      * `top_n` (int) \[optional] 取前 n 个分段
+      *   `user` (string) \[optional] 用户的唯一标识符
 
-      凭据信息的参数由供应商 YAML 配置文件的 `provider_credential_schema` 或 `model_credential_schema` 定义，传入如：`api_key` 等。
+          可以帮助供应商监控和检测滥用行为。
+    *   返回：
 
-    - `query` (string) 查询请求内容
-
-    - `docs` (array[string]) 需要重排的分段列表
-
-    - `score_threshold` (float) [optional] Score 阈值
-
-    - `top_n` (int) [optional] 取前 n 个分段
-
-    - `user` (string) [optional] 用户的唯一标识符
-
-      可以帮助供应商监控和检测滥用行为。
-
-  - 返回：
-
-    [RerankResult](#RerankResult) 实体。
+        [RerankResult](interfaces.md#RerankResult) 实体。
 
 ### Speech2text
 
 继承 `__base.speech2text_model.Speech2TextModel` 基类，实现以下接口：
 
-- Invoke 调用
+*   Invoke 调用
 
-  ```python
-  def _invoke(self, model: str, credentials: dict,
-              file: IO[bytes], user: Optional[str] = None) \
-          -> str:
-      """
-      Invoke large language model
-  
-      :param model: model name
-      :param credentials: model credentials
-      :param file: audio file
-      :param user: unique user id
-      :return: text for given audio file
-      """	
-  ```
+    ```python
+    def _invoke(self, model: str, credentials: dict,
+                file: IO[bytes], user: Optional[str] = None) \
+            -> str:
+        """
+        Invoke large language model
 
-  - 参数：
+        :param model: model name
+        :param credentials: model credentials
+        :param file: audio file
+        :param user: unique user id
+        :return: text for given audio file
+        """	
+    ```
 
-    - `model` (string) 模型名称
+    * 参数：
+      * `model` (string) 模型名称
+      *   `credentials` (object) 凭据信息
 
-    - `credentials` (object) 凭据信息
+          凭据信息的参数由供应商 YAML 配置文件的 `provider_credential_schema` 或 `model_credential_schema` 定义，传入如：`api_key` 等。
+      * `file` (File) 文件流
+      *   `user` (string) \[optional] 用户的唯一标识符
 
-      凭据信息的参数由供应商 YAML 配置文件的 `provider_credential_schema` 或 `model_credential_schema` 定义，传入如：`api_key` 等。
+          可以帮助供应商监控和检测滥用行为。
+    *   返回：
 
-    - `file` (File) 文件流
-
-    - `user` (string) [optional] 用户的唯一标识符
-
-      可以帮助供应商监控和检测滥用行为。
-
-  - 返回：
-
-    语音转换后的字符串。
+        语音转换后的字符串。
 
 ### Text2speech
 
 继承 `__base.text2speech_model.Text2SpeechModel` 基类，实现以下接口：
 
-- Invoke 调用
+*   Invoke 调用
 
-  ```python
-  def _invoke(self, model: str, credentials: dict, content_text: str, streaming: bool, user: Optional[str] = None):
-      """
-      Invoke large language model
-  
-      :param model: model name
-      :param credentials: model credentials
-      :param content_text: text content to be translated
-      :param streaming: output is streaming
-      :param user: unique user id
-      :return: translated audio file
-      """	
-  ```
+    ```python
+    def _invoke(self, model: str, credentials: dict, content_text: str, streaming: bool, user: Optional[str] = None):
+        """
+        Invoke large language model
 
-  - 参数：
+        :param model: model name
+        :param credentials: model credentials
+        :param content_text: text content to be translated
+        :param streaming: output is streaming
+        :param user: unique user id
+        :return: translated audio file
+        """	
+    ```
 
-    - `model` (string) 模型名称
+    * 参数：
+      * `model` (string) 模型名称
+      *   `credentials` (object) 凭据信息
 
-    - `credentials` (object) 凭据信息
+          凭据信息的参数由供应商 YAML 配置文件的 `provider_credential_schema` 或 `model_credential_schema` 定义，传入如：`api_key` 等。
+      * `content_text` (string) 需要转换的文本内容
+      * `streaming` (bool) 是否进行流式输出
+      *   `user` (string) \[optional] 用户的唯一标识符
 
-      凭据信息的参数由供应商 YAML 配置文件的 `provider_credential_schema` 或 `model_credential_schema` 定义，传入如：`api_key` 等。
+          可以帮助供应商监控和检测滥用行为。
+    *   返回：
 
-    - `content_text` (string) 需要转换的文本内容
-
-    - `streaming` (bool) 是否进行流式输出
-
-    - `user` (string) [optional] 用户的唯一标识符
-
-      可以帮助供应商监控和检测滥用行为。
-
-  - 返回：
-
-    文本转换后的语音流。
+        文本转换后的语音流。
 
 ### Moderation
 
 继承 `__base.moderation_model.ModerationModel` 基类，实现以下接口：
 
-- Invoke 调用
+*   Invoke 调用
 
-  ```python
-  def _invoke(self, model: str, credentials: dict,
-              text: str, user: Optional[str] = None) \
-          -> bool:
-      """
-      Invoke large language model
-  
-      :param model: model name
-      :param credentials: model credentials
-      :param text: text to moderate
-      :param user: unique user id
-      :return: false if text is safe, true otherwise
-      """
-  ```
+    ```python
+    def _invoke(self, model: str, credentials: dict,
+                text: str, user: Optional[str] = None) \
+            -> bool:
+        """
+        Invoke large language model
 
-  - 参数：
+        :param model: model name
+        :param credentials: model credentials
+        :param text: text to moderate
+        :param user: unique user id
+        :return: false if text is safe, true otherwise
+        """
+    ```
 
-    - `model` (string) 模型名称
+    * 参数：
+      * `model` (string) 模型名称
+      *   `credentials` (object) 凭据信息
 
-    - `credentials` (object) 凭据信息
+          凭据信息的参数由供应商 YAML 配置文件的 `provider_credential_schema` 或 `model_credential_schema` 定义，传入如：`api_key` 等。
+      * `text` (string) 文本内容
+      *   `user` (string) \[optional] 用户的唯一标识符
 
-      凭据信息的参数由供应商 YAML 配置文件的 `provider_credential_schema` 或 `model_credential_schema` 定义，传入如：`api_key` 等。
+          可以帮助供应商监控和检测滥用行为。
+    *   返回：
 
-    - `text` (string) 文本内容
-
-    - `user` (string) [optional] 用户的唯一标识符
-
-      可以帮助供应商监控和检测滥用行为。
-
-  - 返回：
-
-    False 代表传入的文本安全，True 则反之。
-
-
+        False 代表传入的文本安全，True 则反之。
 
 ## 实体
 
-### PromptMessageRole 
+### PromptMessageRole
 
 消息角色
 
@@ -623,7 +577,7 @@ class PromptMessageTool(BaseModel):
     parameters: dict  # 工具参数 dict
 ```
 
----
+***
 
 ### LLMResult
 
@@ -690,7 +644,7 @@ class LLMUsage(ModelUsage):
     latency: float  # 请求耗时(s)
 ```
 
----
+***
 
 ### TextEmbeddingResult
 
@@ -720,7 +674,7 @@ class EmbeddingUsage(ModelUsage):
     latency: float  # 请求耗时(s)
 ```
 
----
+***
 
 ### RerankResult
 

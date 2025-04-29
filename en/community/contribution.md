@@ -73,7 +73,7 @@ Dify requires the following dependencies to build, make sure they're installed o
 * [Docker Compose](https://docs.docker.com/compose/install/)
 * [Node.js v18.x (LTS)](http://nodejs.org)
 * [npm](https://www.npmjs.com/) version 8.x.x or [Yarn](https://yarnpkg.com/)
-* [Python](https://www.python.org/) version 3.10.x
+* [Python](https://www.python.org/) version 3.11.x
 
 #### 4. Installations
 
@@ -155,4 +155,4 @@ And that's it! Once your PR is merged, you will be featured as a contributor in 
 
 ### Getting Help
 
-If you ever get stuck or got a burning question while contributing, simply shoot your queries our way via the related GitHub issue, or hop onto our [Discord](https://discord.gg/AhzKf7dNgk) for a quick chat.
+If you ever get stuck or got a burning question while contributing, simply shoot your queries our way via the related GitHub issue, or hop onto our [Discord](https://discord.com/invite/8Tpq4AcN9c) for a quick chat.

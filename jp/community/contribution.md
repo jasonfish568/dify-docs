@@ -74,7 +74,7 @@ Difyは以下のツールとライブラリに依存しています：
 - [Docker Compose](https://docs.docker.com/compose/install/)
 - [Node.js v18.x (LTS)](http://nodejs.org)
 - [npm](https://www.npmjs.com/) バージョン 8.x.x もしくは [Yarn](https://yarnpkg.com/)
-- [Python](https://www.python.org/) バージョン 3.10.x
+- [Python](https://www.python.org/) バージョン 3.11.x
 
 ### 4. インストール
 
@@ -156,4 +156,4 @@ DifyのバックエンドはPythonで書かれており、[Flask](https://flask.
 
 ## ヘルプを求める
 
-貢献の過程で困難に直面したり質問がある場合は、関連するGitHubのイシューで質問を提出するか、私たちの[Discord](https://discord.gg/AhzKf7dNgk)に参加して迅速なコミュニケーションを行ってください。
+貢献の過程で困難に直面したり質問がある場合は、関連するGitHubのイシューで質問を提出するか、私たちの[Discord](https://discord.com/invite/8Tpq4AcN9c)に参加して迅速なコミュニケーションを行ってください。

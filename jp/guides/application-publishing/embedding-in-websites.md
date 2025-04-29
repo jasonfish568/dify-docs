@@ -132,5 +132,4 @@ window.difyChatbotConfig = {
 
 注意: `embed.js` スクリプトを使用してiframeを作成する場合、各入力値はURLに追加される前にGZIPで圧縮され、base64でエンコードされます。
 
-例えば、処理された入力値を含むURLは以下のようになります：
-`http://localhost/chatbot/{token}?name=H4sIAKUlmWYA%2FwWAIQ0AAACDsl7gLuiv2PQEUNAuqQUAAAA%3D`
+例えば、処理された入力値を含むURLは以下のようになります： `http://localhost/chatbot/{token}?name=H4sIAKUlmWYA%2FwWAIQ0AAACDsl7gLuiv2PQEUNAuqQUAAAA%3D`

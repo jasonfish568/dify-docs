@@ -1,4 +1,4 @@
-# 本地部署相关
+# 本地部署
 
 ### 1. 本地部署初始化后，密码错误如何重置？
 
@@ -55,11 +55,7 @@ FileNotFoundError: File not found
 
 这可能是由于切换了域名/网址，导致前端和服务端跨域，请将 `docker-compose.yml` 中所有的以下配置项改为新的域名：
 
-`CONSOLE_API_URL:` 控制台 API 的后端 URL。
-`CONSOLE_WEB_URL:` 控制台网页的前端 URL。
-`SERVICE_API_URL:` 服务 API 的 URL。
-`APP_API_URL:` WebApp API 的后端 URL。
-`APP_WEB_URL:` WebApp 的 URL。
+`CONSOLE_API_URL:` 控制台 API 的后端 URL。 `CONSOLE_WEB_URL:` 控制台网页的前端 URL。 `SERVICE_API_URL:` 服务 API 的 URL。 `APP_API_URL:` WebApp API 的后端 URL。 `APP_WEB_URL:` WebApp 的 URL。
 
 更多信息，请查看：[环境变量](../../getting-started/install-self-hosted/environments.md)
 
@@ -189,9 +185,9 @@ flask vdb-migrate # or docker exec -it docker-api-1 flask vdb-migrate
 
 **经过测试的目标数据库：**
 
-- qdrant
-- milvus
-- analyticdb
+* qdrant
+* milvus
+* analyticdb
 
 ### 18. 为什么需要SSRF\_PROXY？
 
@@ -234,13 +230,12 @@ docker ps -q | xargs -n 1 docker inspect --format '{{ .Name }}: {{range .Network
 ```
 
 记住后面的IP地址。然后打开你存放dify源代码的地方，打开`dify/docker/nginx/conf.d`,将`http://api:5001`替换为`http://172.19.0.7:5001`,将`http://web:3000`替换为`http://172.19.0.5:3000`，随后重启Nginx容器或者重载配置。\
-这些IP地址是_**示例性**_ 的，你必须执行命令获取你自己的IP地址，不要直接填入。\
+这些IP地址是\_**示例性**\_ 的，你必须执行命令获取你自己的IP地址，不要直接填入。\
 你可能在重新启动相关容器时需要再次根据IP进行配置。
 
 ### 21. 如何开启内容安全策略？
 
-在 `.env` 配置文件中找到 `CSP_WHITELIST` 参数，然后填写能够被允许放行的域名，例如和所有和产品使用相关的网址、API 请求地址
-此举将有助于减少潜在的 XSS 攻击。如需了解更多关于 CSP 的建议，请参考[内容安全策略](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP)。
+在 `.env` 配置文件中找到 `CSP_WHITELIST` 参数，然后填写能够被允许放行的域名，例如和所有和产品使用相关的网址、API 请求地址 此举将有助于减少潜在的 XSS 攻击。如需了解更多关于 CSP 的建议，请参考[内容安全策略](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP)。
 
 ### 22. 如何修改 API 服务的端口号？
 
@@ -248,30 +243,33 @@ API 服务与 Dify 平台使用的端口号相一致。你可以通过修改 `do
 
 ### 23. 如何将文件从本地存储迁移到云存储？
 
-要将文件从本地存储迁移到云存储（如阿里云 OSS），你需要从本地存储目录中的 'upload_files' 和 'privkeys' 文件夹迁移数据。请按照以下步骤操作：
+要将文件从本地存储迁移到云存储（如阿里云 OSS），你需要从本地存储目录中的 'upload\_files' 和 'privkeys' 文件夹迁移数据。请按照以下步骤操作：
 
-1. 配置存储设置
+1.  配置存储设置
 
-   对于本地源码部署方式：
-   - 在 `.env` 文件中更新存储设置
-   - 设置 `STORAGE_TYPE=aliyun-oss`
-   - 配置阿里云 OSS 凭证
+    对于本地源码部署方式：
 
-   对于 Docker Compose 部署方式：
-   - 在 `docker-compose.yaml` 文件中更新存储设置
-   - 设置 `STORAGE_TYPE: aliyun-oss`
-   - 配置阿里云 OSS 凭证
+    * 在 `.env` 文件中更新存储设置
+    * 设置 `STORAGE_TYPE=aliyun-oss`
+    * 配置阿里云 OSS 凭证
 
-2. 执行迁移命令
+    对于 Docker Compose 部署方式：
 
-   对于本地源码：
-   ```bash
-   flask upload-private-key-file-to-cloud-storage
-   flask upload-local-files-to-cloud-storage
-   ```
+    * 在 `docker-compose.yaml` 文件中更新存储设置
+    * 设置 `STORAGE_TYPE: aliyun-oss`
+    * 配置阿里云 OSS 凭证
+2.  执行迁移命令
 
-   对于 Docker Compose：
-   ```bash
-   docker exec -it docker-api-1 flask upload-private-key-file-to-cloud-storage
-   docker exec -it docker-api-1 flask upload-local-files-to-cloud-storage
-   ```
+    对于本地源码：
+
+    ```bash
+    flask upload-private-key-file-to-cloud-storage
+    flask upload-local-files-to-cloud-storage
+    ```
+
+    对于 Docker Compose：
+
+    ```bash
+    docker exec -it docker-api-1 flask upload-private-key-file-to-cloud-storage
+    docker exec -it docker-api-1 flask upload-local-files-to-cloud-storage
+    ```
